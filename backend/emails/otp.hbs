@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your OTP Code</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 600px;
+      margin: 50px auto;
+      background-color: #ffffff;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+    .header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: #ffffff;
+      padding: 30px;
+      text-align: center;
+    }
+    .header h1 {
+      margin: 0;
+      font-size: 28px;
+    }
+    .content {
+      padding: 40px 30px;
+      text-align: center;
+    }
+    .otp-box {
+      background-color: #f8f9fa;
+      border: 2px dashed #667eea;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 30px 0;
+    }
+    .otp-code {
+      font-size: 36px;
+      font-weight: bold;
+      color: #667eea;
+      letter-spacing: 8px;
+      margin: 10px 0;
+    }
+    .expiry {
+      color: #dc3545;
+      font-size: 14px;
+      margin-top: 15px;
+    }
+    .footer {
+      background-color: #f8f9fa;
+      padding: 20px;
+      text-align: center;
+      font-size: 12px;
+      color: #6c757d;
+      border-top: 1px solid #e9ecef;
+    }
+    .button {
+      display: inline-block;
+      padding: 12px 30px;
+      background-color: #667eea;
+      color: #ffffff;
+      text-decoration: none;
+      border-radius: 5px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>🎯 Graphora </h1>
+    </div>
+    <div class="content">
+      <h2>Hello {{name}}!</h2>
+      <p>Thank you for registering with Graphora . Please verify your email address to complete your registration.</p>
+      
+      <div class="otp-box">
+        <p style="margin: 0; color: #6c757d;">Your verification code is:</p>
+        <div class="otp-code">{{otp}}</div>
+        <p class="expiry">⏰ This code will expire in {{expiryMinutes}} minutes</p>
+      </div>
+      
+      <p>Enter this code on the verification page to activate your account.</p>
+      <p style="color: #6c757d; font-size: 14px;">If you didn't request this code, please ignore this email.</p>
+    </div>
+    <div class="footer">
+      <p>Need help? Contact us at <a href="mailto:{{supportEmail}}">{{supportEmail}}</a></p>
+      <p>&copy; 2024 Graphora. All rights reserved.</p>
+    </div>
+  </div>
+</body>
+</html>
