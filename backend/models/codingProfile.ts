@@ -1,6 +1,7 @@
 import mongoose, { Schema } from 'mongoose';
+import { ICodingProfile } from '../types/type';
 
-const CodingProfileSchema = new Schema({
+const CodingProfileSchema = new Schema<ICodingProfile>({
     user: { type: Schema.Types.ObjectId, ref:'User', unique:true },
 
     platforms: {
@@ -60,4 +61,11 @@ const CodingProfileSchema = new Schema({
 
     lastFullSync: Date,
     syncScheduled: Boolean
-}, { timestamps:true });
+}, { timestamps: true });
+
+CodingProfileSchema.index({ user: 1 });
+CodingProfileSchema.index({ 'aggregatedStats.totalProblemsSolved': -1 });
+
+const CodingProfile = mongoose.model('CodingProfile', CodingProfileSchema);
+
+export default CodingProfile;

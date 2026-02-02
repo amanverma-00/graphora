@@ -1,5 +1,7 @@
 import mongoose, { Schema } from 'mongoose';
-const ConversationSchema=new Schema({
+import { IConversation, IMessage } from '../types/type';
+
+const ConversationSchema = new Schema<IConversation>({
     participants: [{ type: Schema.Types.ObjectId, ref:'User' }],
     type: { type: String, enum: ['direct','group','mentor'], default:'direct' },
     booking: { type: Schema.Types.ObjectId, ref:'Booking' },// If mentor chat
@@ -9,9 +11,9 @@ const ConversationSchema=new Schema({
         sentAt: Date
     },
     unreadCount: { type: Map, of: Number }
-}, { timestamps:true });
+}, { timestamps: true });
 
-const MessageSchema=new Schema({
+const MessageSchema = new Schema<IMessage>({
     conversation: { type: Schema.Types.ObjectId, ref:'Conversation', required:true },
     sender: { type: Schema.Types.ObjectId, ref:'User', required:true },
 
@@ -37,7 +39,15 @@ const MessageSchema=new Schema({
         readAt: Date
     }],
 
-    isDeleted: { type: Boolean, default:false }
-}, { timestamps:true });
+    isDeleted: { type: Boolean, default: false }
+}, { timestamps: true });
 
-MessageSchema.index({ conversation:1, createdAt:-1 });
+ConversationSchema.index({ participants: 1 });
+ConversationSchema.index({ 'lastMessage.sentAt': -1 });
+MessageSchema.index({ conversation: 1, createdAt: -1 });
+
+const Conversation = mongoose.model('Conversation', ConversationSchema);
+const Message = mongoose.model('Message', MessageSchema);
+
+export { Conversation, Message };
+export default Message;

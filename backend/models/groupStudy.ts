@@ -1,5 +1,7 @@
 import mongoose, { Schema } from 'mongoose';
-const StudyGroupSchema=new Schema({
+import { IStudyGroup } from '../types/type';
+
+const StudyGroupSchema = new Schema<IStudyGroup>({
     name: { type: String, required:true, maxLength:100 },
     description: { type: String, maxLength:500 },
     avatar: { type: String },
@@ -43,4 +45,13 @@ const StudyGroupSchema=new Schema({
     },
 
     isActive: { type: Boolean, default:true }
-}, { timestamps:true });
+}, { timestamps: true });
+
+StudyGroupSchema.index({ creator: 1 });
+StudyGroupSchema.index({ 'members.user': 1 });
+StudyGroupSchema.index({ 'settings.isPublic': 1, isActive: 1 });
+StudyGroupSchema.index({ 'settings.joinCode': 1 });
+
+const StudyGroup = mongoose.model<IStudyGroup>('StudyGroup', StudyGroupSchema);
+
+export default StudyGroup;

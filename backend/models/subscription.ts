@@ -1,6 +1,7 @@
 import mongoose, { Schema } from 'mongoose';
+import { ISubscription } from '../types/type';
 
-const SubscriptionSchema=new Schema({
+const SubscriptionSchema = new Schema<ISubscription>({
     user: { type: Schema.Types.ObjectId, ref:'User', required:true },
 
     plan: { type: String, enum: ['free','pro','premium'], default:'free' },
@@ -29,4 +30,12 @@ const SubscriptionSchema=new Schema({
         profileSync: { type: Boolean, default:false },
         mentorMinutes: { type: Number, default:0 }
     }
-}, { timestamps:true });
+}, { timestamps: true });
+
+SubscriptionSchema.index({ user: 1 });
+SubscriptionSchema.index({ status: 1 });
+SubscriptionSchema.index({ stripeSubscriptionId: 1 });
+
+const Subscription = mongoose.model<ISubscription>('Subscription', SubscriptionSchema);
+
+export default Subscription;

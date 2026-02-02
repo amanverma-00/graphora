@@ -4,6 +4,8 @@ import { Document, Model, Types } from 'mongoose';
 export type UserLevel = 'beginner' | 'intermediate' | 'advanced';
 export type UserRole = 'user' | 'admin' | 'professor';
 export type SubscriptionPlan = 'free' | 'pro' | 'premium';
+export type SubscriptionStatus = 'active' | 'cancelled' | 'past_due' | 'trialing' | 'expired';
+export type SubscriptionInterval = 'monthly' | 'yearly';
 export type ProgrammingLanguage = 'JavaScript' | 'Python' | 'C++' | 'Java' | 'Rust';
 export type SubmissionLanguage = 'javascript' | 'python' | 'java' | 'C++';
 export type Difficulty = 'easy' | 'medium' | 'hard';
@@ -11,7 +13,7 @@ export type Pattern = 'sliding window' | 'two pointers' | 'tree traversal' | 'gr
 export type RoadmapDomain = 'MERN Stack' | 'Frontend' | 'Backend' | 'Full Stack' | 'DevOps' | 'Data Science' | 'Machine Learning' | 'Mobile Development' | 'System Design';
 export type RoadmapLevel = 'beginner' | 'intermediate' | 'advanced' | 'all';
 export type ResourceType = 'article' | 'video' | 'course' | 'documentation' | 'book';
-export type MockSessionType = 'company' | 'difficulty' | 'pattern';
+export type MockSessionType = 'company' | 'difficulty' | 'pattern' | 'custom';
 export type MockSessionStatus = 'pending' | 'in_progress' | 'completed' | 'expired' | 'abandoned';
 export type SubmissionStatus = 'Pending' | 'Accepted' | 'Wrong Answer' | 'Time Limit Exceeded' | 'Memory Limit Exceeded' | 'Runtime Error' | 'Compilation Error' | 'Internal Error';
 export type TestCaseStatus = 'passed' | 'failed' | 'error';
@@ -20,6 +22,11 @@ export type BookingType = 'video' | 'chat';
 export type BookingStatus = 'pending' | 'confirmed' | 'in_progress' | 'completed' | 'cancelled' | 'no_show';
 export type MeetingProvider = 'jitsi' | 'zoom' | 'google_meet';
 export type PaymentStatus = 'pending' | 'paid' | 'refunded' | 'failed';
+export type ConversationType = 'direct' | 'group' | 'mentor';
+export type MessageType = 'text' | 'code' | 'file' | 'image';
+export type StudyGroupRole = 'admin' | 'moderator' | 'member';
+export type StudySessionStatus = 'scheduled' | 'ongoing' | 'completed' | 'cancelled';
+export type StudyGroupDifficulty = 'easy' | 'medium' | 'hard' | 'mixed';
 
 // ==================== USER ====================
 export interface IUserSubscription {
@@ -377,6 +384,217 @@ export interface IBooking extends Document {
     cancelledBy?: 'student' | 'mentor' | 'system';
     cancellationReason?: string;
     cancelledAt?: Date;
+    createdAt: Date;
+    updatedAt: Date;
+}
+
+// ==================== SUBSCRIPTION ====================
+export interface ISubscriptionFeatures {
+    unlimitedProblems: boolean;
+    mockInterviews: number;
+    profileSync: boolean;
+    mentorMinutes: number;
+}
+
+export interface ISubscription extends Document {
+    user: Types.ObjectId;
+    plan: SubscriptionPlan;
+    stripeCustomerId?: string;
+    stripeSubscriptionId?: string;
+    stripePriceId?: string;
+    amount?: number;
+    currency: string;
+    interval?: SubscriptionInterval;
+    status: SubscriptionStatus;
+    currentPeriodStart?: Date;
+    currentPeriodEnd?: Date;
+    cancelledAt?: Date;
+    features: ISubscriptionFeatures;
+    createdAt: Date;
+    updatedAt: Date;
+}
+
+// ==================== CODING PROFILE ====================
+export interface ILeetCodeProfile {
+    username?: string;
+    totalSolved: number;
+    easySolved: number;
+    mediumSolved: number;
+    hardSolved: number;
+    ranking?: number;
+    contestRating?: number;
+    streak?: number;
+    badges: string[];
+    lastFetched?: Date;
+    fetchError?: string;
+}
+
+export interface ICodeforcesProfile {
+    handle?: string;
+    rating?: number;
+    maxRating?: number;
+    rank?: string;
+    contestsCount?: number;
+    lastFetched?: Date;
+}
+
+export interface ICodeChefProfile {
+    username?: string;
+    rating?: number;
+    stars?: number;
+    globalRank?: number;
+    lastFetched?: Date;
+}
+
+export interface IHackerRankCertificate {
+    name: string;
+    url: string;
+}
+
+export interface IHackerRankProfile {
+    username?: string;
+    badges: string[];
+    certificates: IHackerRankCertificate[];
+    lastFetched?: Date;
+}
+
+export interface IGitHubLanguage {
+    name: string;
+    percentage: number;
+}
+
+export interface IGitHubProfile {
+    username?: string;
+    contributions?: number;
+    currentStreak?: number;
+    longestStreak?: number;
+    publicRepos?: number;
+    followers?: number;
+    topLanguages: IGitHubLanguage[];
+    lastFetched?: Date;
+}
+
+export interface ICodingPlatforms {
+    leetcode: ILeetCodeProfile;
+    codeforces: ICodeforcesProfile;
+    codechef: ICodeChefProfile;
+    hackerrank: IHackerRankProfile;
+    github: IGitHubProfile;
+}
+
+export interface IAggregatedStats {
+    totalProblemsSolved?: number;
+    strongestTopics: string[];
+    weakestTopics: string[];
+    consistencyScore?: number;
+    activeDaysThisMonth?: number;
+}
+
+export interface ICodingProfile extends Document {
+    user: Types.ObjectId;
+    platforms: ICodingPlatforms;
+    aggregatedStats: IAggregatedStats;
+    lastFullSync?: Date;
+    syncScheduled?: boolean;
+    createdAt: Date;
+    updatedAt: Date;
+}
+
+// ==================== CONVERSATION & MESSAGE ====================
+export interface ILastMessage {
+    content?: string;
+    sender?: Types.ObjectId;
+    sentAt?: Date;
+}
+
+export interface IConversation extends Document {
+    participants: Types.ObjectId[];
+    type: ConversationType;
+    booking?: Types.ObjectId;
+    lastMessage: ILastMessage;
+    unreadCount: Map<string, number>;
+    createdAt: Date;
+    updatedAt: Date;
+}
+
+export interface ICodeBlock {
+    language?: string;
+    code?: string;
+}
+
+export interface IAttachment {
+    url?: string;
+    name?: string;
+    size?: number;
+    mimeType?: string;
+}
+
+export interface IReadReceipt {
+    user: Types.ObjectId;
+    readAt: Date;
+}
+
+export interface IMessage extends Document {
+    conversation: Types.ObjectId;
+    sender: Types.ObjectId;
+    content?: string;
+    type: MessageType;
+    codeBlock?: ICodeBlock;
+    attachment?: IAttachment;
+    readBy: IReadReceipt[];
+    isDeleted: boolean;
+    createdAt: Date;
+    updatedAt: Date;
+}
+
+// ==================== STUDY GROUP ====================
+export interface IStudyGroupMember {
+    user: Types.ObjectId;
+    role: StudyGroupRole;
+    joinedAt: Date;
+}
+
+export interface IStudyGroupSettings {
+    isPublic: boolean;
+    maxMembers: number;
+    joinCode?: string;
+    allowInvites: boolean;
+}
+
+export interface IStudyGroupFocus {
+    topics: string[];
+    difficulty?: StudyGroupDifficulty;
+    targetCompanies: string[];
+}
+
+export interface IStudySession {
+    title?: string;
+    scheduledAt?: Date;
+    duration?: number;
+    problems: Types.ObjectId[];
+    meetingLink?: string;
+    host?: Types.ObjectId;
+    participants: Types.ObjectId[];
+    status: StudySessionStatus;
+}
+
+export interface IStudyGroupStats {
+    totalProblemsAttempted: number;
+    totalMeetingsHeld: number;
+}
+
+export interface IStudyGroup extends Document {
+    name: string;
+    description?: string;
+    avatar?: string;
+    creator: Types.ObjectId;
+    members: IStudyGroupMember[];
+    settings: IStudyGroupSettings;
+    focus: IStudyGroupFocus;
+    sessions: IStudySession[];
+    conversation?: Types.ObjectId;
+    stats: IStudyGroupStats;
+    isActive: boolean;
     createdAt: Date;
     updatedAt: Date;
 }

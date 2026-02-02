@@ -10,6 +10,7 @@ import connectDB from './config/db';
 import authRouter from './routes/userAuth';
 import problemRouter from './routes/problemCreator';
 import submitRouter from './routes/submit';
+import mockRouter from './routes/mock';
 
 import {
     apiLimiter,
@@ -58,10 +59,12 @@ app.get('/health', (_req, res) => {
 app.use('/api/auth', authRouter);
 app.use('/api/problems', problemRouter);
 app.use('/api/submit', submitRouter);
+app.use('/api/mocks', mockRouter);
 
 app.use('/user', authRouter);
 app.use('/problem', problemRouter);
 app.use('/problemSubmission', submitRouter);
+app.use('/mock', mockRouter);
 
 app.use(notFound);
 app.use(errorHandler);

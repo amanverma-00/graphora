@@ -33,13 +33,11 @@ export interface IMockSession extends Document {
     createdAt: Date;
     updatedAt: Date;
 }
-
 const MockSessionSchema = new Schema({
     user: { type: Schema.Types.ObjectId, ref: 'User', required: true, index: true },
-
     type: {
         type: String,
-        enum: ['company', 'difficulty', 'pattern', 'custom'],
+        enum: ['company', 'difficulty', 'pattern'],
         required: true
     },
     config: {
@@ -48,7 +46,6 @@ const MockSessionSchema = new Schema({
         pattern: { type: String },
         problemCount: { type: Number, default: 3 }
     },
-
     problems: [{
         problem: { type: Schema.Types.ObjectId, ref: 'Problem', required: true },
         order: { type: Number, required: true },
@@ -58,19 +55,16 @@ const MockSessionSchema = new Schema({
         startedAt: { type: Date },
         completedAt: { type: Date }
     }],
-
     timeLimit: { type: Number, default: 90 },
     startedAt: { type: Date },
     completedAt: { type: Date },
     expiresAt: { type: Date },
-
     status: {
         type: String,
         enum: ['pending', 'in_progress', 'completed', 'expired', 'abandoned'],
         default: 'pending',
         index: true
     },
-
     score: {
         solved: { type: Number, default: 0 },
         total: { type: Number, default: 3 },

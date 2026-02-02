@@ -1,0 +1,344 @@
+[
+{
+  "title": "Find Second Largest",
+  "description": "Given an array of integers, find the second largest distinct element in the array.\n\nIf no second largest element exists (for example, if all elements are the same or the array has fewer than 2 elements), return -1.\n\nImplement an efficient solution.",
+  "difficulty": "easy",
+  "companyTags": ["SAP Labs", "Rockstand"],
+  "topics": ["array"],
+  "pattern": ["greedy"],
+  "visibleTestCases": [
+    {
+      "input": "6\n10 20 4 20 9 5",
+      "output": "10",
+      "explanation": "The largest element is 20, the second largest distinct element is 10."
+    },
+    {
+      "input": "5\n5 5 5 5 5",
+      "output": "-1",
+      "explanation": "All elements are equal, so there is no second largest element."
+    }
+  ],
+  "hiddenTestCases": [
+    {
+      "input": "4\n1 2 3 4",
+      "output": "3"
+    },
+    {
+      "input": "3\n9 9 8",
+      "output": "8"
+    },
+    {
+      "input": "1\n42",
+      "output": "-1"
+    }
+  ],
+  "starterCode": [
+    {
+      "language": "JavaScript",
+      "code": "function findSecondLargest(arr) {\n    // TODO: Implement second largest element logic\n    return -1;\n}\n\n// Example input handling\nconst fs = require('fs');\nconst input = fs.readFileSync(0, 'utf-8').trim().split(/\\s+/).map(Number);\nconst n = input[0];\nconst arr = input.slice(1, 1 + n);\nconsole.log(findSecondLargest(arr));"
+    },
+    {
+      "language": "Java",
+      "code": "import java.util.*;\n\npublic class Main {\n    public static int findSecondLargest(int[] arr) {\n        // TODO: Implement second largest element logic\n        return -1;\n    }\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        int[] arr = new int[n];\n        for (int i = 0; i < n; i++) arr[i] = sc.nextInt();\n        System.out.println(findSecondLargest(arr));\n    }\n}"
+    },
+    {
+      "language": "C++",
+      "code": "#include <bits/stdc++.h>\nusing namespace std;\n\nint findSecondLargest(vector<int>& arr) {\n    // TODO: Implement second largest element logic\n    return -1;\n}\n\nint main() {\n    int n;\n    cin >> n;\n    vector<int> arr(n);\n    for (int i = 0; i < n; i++) cin >> arr[i];\n    cout << findSecondLargest(arr) << endl;\n    return 0;\n}"
+    }
+  ],
+  "solutions": [
+    {
+      "language": "JavaScript",
+      "code": "function findSecondLargest(arr) {\n    if (arr.length < 2) return -1;\n    let first = -Infinity, second = -Infinity;\n    for (let num of arr) {\n        if (num > first) {\n            second = first;\n            first = num;\n        } else if (num > second && num < first) {\n            second = num;\n        }\n    }\n    return second === -Infinity ? -1 : second;\n}\n\n// Input handling\nconst fs = require('fs');\nconst input = fs.readFileSync(0, 'utf-8').trim().split(/\\s+/).map(Number);\nconst n = input[0];\nconst arr = input.slice(1);\nconsole.log(findSecondLargest(arr));"
+    },
+    {
+      "language": "Java",
+      "code": "import java.util.*;\n\npublic class Main {\n    public static int findSecondLargest(int[] arr) {\n        if (arr.length < 2) return -1;\n        int first = Integer.MIN_VALUE, second = Integer.MIN_VALUE;\n        for (int num : arr) {\n            if (num > first) {\n                second = first;\n                first = num;\n            } else if (num > second && num < first) {\n                second = num;\n            }\n        }\n        return second == Integer.MIN_VALUE ? -1 : second;\n    }\n\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        int[] arr = new int[n];\n        for (int i = 0; i < n; i++) arr[i] = sc.nextInt();\n        System.out.println(findSecondLargest(arr));\n    }\n}"
+    },
+    {
+      "language": "C++",
+      "code": "#include <bits/stdc++.h>\nusing namespace std;\n\nint findSecondLargest(vector<int>& arr) {\n    if (arr.size() < 2) return -1;\n    int first = INT_MIN, second = INT_MIN;\n    for (int num : arr) {\n        if (num > first) {\n            second = first;\n            first = num;\n        } else if (num > second && num < first) {\n            second = num;\n        }\n    }\n    return (second == INT_MIN ? -1 : second);\n}\n\nint main() {\n    int n;\n    cin >> n;\n    vector<int> arr(n);\n    for (int i = 0; i < n; i++) cin >> arr[i];\n    cout << findSecondLargest(arr) << endl;\n    return 0;\n}"
+    }
+  ],
+  "constraints": "2 ≤ arr.size() ≤ 10^5 1 ≤ arr[i] ≤ 10^5",
+  "hints": [
+      "Brute force: sort and scan for distinct values (O(n log n)).",
+      "Better: one-pass keep track of first and second distinct values (O(n), O(1))."
+    ],
+    "memoryLimit": 256,
+    "timeLimit": 1000
+},
+{
+  "title": "Find the Index of the First Occurrence in a String",
+  "description": "Given two strings haystack and needle, return the index of the first occurrence of needle in haystack, or -1 if needle is not part of haystack. If needle is an empty string, return 0 (consistent with C's strstr() and Java's indexOf()).",
+  "difficulty": "easy",
+  "companyTags": ["Amazon", "Microsoft"],
+  "topics": ["string", "two pointers"],
+  "pattern": ["two pointers"],
+  "visibleTestCases": [
+    {
+      "input": "haystack = \"hello\", needle = \"ll\"",
+      "output": "2",
+      "explanation": "The substring \"ll\" first occurs starting at index 2."
+    }
+  ],
+  "hiddenTestCases": [
+    { "input": "haystack = \"aaaaa\", needle = \"bba\"", "output": "-1" },
+    { "input": "haystack = \"\", needle = \"\"", "output": "0" },
+    { "input": "haystack = \"abc\", needle = \"\"", "output": "0" }
+  ],
+  "starterCode": [
+    { "language": "JavaScript", "code": "function solve(haystack, needle) {\n    // TODO: Implement your solution\n    return -1;\n}\nconsole.log(solve(\"hello\", \"ll\"));" },
+    { "language": "Java", "code": "class Solution {\n    public int solve(String haystack, String needle) {\n        // TODO: Implement your solution\n        return -1;\n    }\n    public static void main(String[] args) {\n        Solution sol = new Solution();\n        System.out.println(sol.solve(\"hello\", \"ll\"));\n    }\n}" },
+    { "language": "C++", "code": "#include <bits/stdc++.h>\nusing namespace std;\nint solve(const string& haystack, const string& needle) {\n    // TODO: Implement your solution\n    return -1;\n}\nint main() {\n    cout << solve(\"hello\", \"ll\");\n    return 0;\n}" }
+  ],
+  "solutions": [
+    { "language": "JavaScript", "code": "function solve(haystack, needle) {\n    if (needle === \"\") return 0;\n    return haystack.indexOf(needle);\n}" },
+    { "language": "Java", "code": "class Solution {\n    public int solve(String haystack, String needle) {\n        if (needle.isEmpty()) return 0;\n        return haystack.indexOf(needle);\n    }\n}" },
+    { "language": "C++", "code": "#include <bits/stdc++.h>\nusing namespace std;\nint solve(const string& haystack, const string& needle) {\n    if (needle.empty()) return 0;\n    auto pos = haystack.find(needle);\n    return (pos == string::npos) ? -1 : (int)pos;\n}" }
+  ],
+  "constraints": "0 ≤ haystack.length, needle.length ≤ 10^4",
+  "hints": [
+    "Use built-in string search methods.",
+    "Consider KMP algorithm for optimal solution."
+  ],
+  "memoryLimit": 256,
+  "timeLimit": 1000
+},
+{
+  "title": "First Missing Positive",
+  "description": "Given an unsorted integer array nums, return the smallest missing positive integer. Your solution must run in O(n) time and use constant extra space.",
+  "difficulty": "hard",
+  "companyTags": ["Amazon", "Google", "Facebook"],
+  "topics": ["array"],
+  "pattern": ["greedy"],
+  "visibleTestCases": [
+    {
+      "input": "[3, 4, -1, 1]",
+      "output": "2",
+      "explanation": "1 is found, but 2 is missing. Rearrange in-place using cyclic sort."
+    }
+  ],
+  "hiddenTestCases": [
+    { "input": "[1,2,0]", "output": "3" },
+    { "input": "[7,8,9,11,12]", "output": "1" },
+    { "input": "[1]", "output": "2" }
+  ],
+  "starterCode": [
+    { "language": "JavaScript", "code": "function solve(nums) {\n    // TODO: Implement your solution\n    return -1;\n}\nconsole.log(solve([3,4,-1,1]));" },
+    { "language": "Java", "code": "class Solution {\n    public int solve(int[] nums) {\n        // TODO: Implement your solution\n        return -1;\n    }\n}" },
+    { "language": "C++", "code": "#include <bits/stdc++.h>\nusing namespace std;\nint solve(vector<int>& nums) {\n    // TODO: Implement your solution\n    return -1;\n}" }
+  ],
+  "solutions": [
+    { "language": "JavaScript", "code": "function solve(nums) {\n    const n = nums.length;\n    for (let i = 0; i < n; i++) {\n        while (nums[i] > 0 && nums[i] <= n && nums[nums[i]-1] !== nums[i]) {\n            [nums[i], nums[nums[i]-1]] = [nums[nums[i]-1], nums[i]];\n        }\n    }\n    for (let i = 0; i < n; i++) {\n        if (nums[i] !== i + 1) return i + 1;\n    }\n    return n + 1;\n}" },
+    { "language": "Java", "code": "class Solution {\n    public int solve(int[] nums) {\n        int n = nums.length;\n        for (int i = 0; i < n; i++) {\n            while (nums[i] > 0 && nums[i] <= n && nums[nums[i] - 1] != nums[i]) {\n                int tmp = nums[nums[i] - 1];\n                nums[nums[i] - 1] = nums[i];\n                nums[i] = tmp;\n            }\n        }\n        for (int i = 0; i < n; i++) {\n            if (nums[i] != i + 1) return i + 1;\n        }\n        return n + 1;\n    }\n}" },
+    { "language": "C++", "code": "#include <bits/stdc++.h>\nusing namespace std;\nint solve(vector<int>& nums) {\n    int n = nums.size();\n    for (int i = 0; i < n; ++i) {\n        while (nums[i] > 0 && nums[i] <= n && nums[nums[i]-1] != nums[i]) {\n            swap(nums[i], nums[nums[i]-1]);\n        }\n    }\n    for (int i = 0; i < n; ++i) {\n        if (nums[i] != i + 1) return i + 1;\n    }\n    return n + 1;\n}" }
+  ],
+  "constraints": "1 ≤ nums.length ≤ 10^5 -2^31 ≤ nums[i] ≤ 2^31 - 1",
+  "hints": [
+    "Use cyclic sort to place positive numbers in their correct positions.",
+    "Place number i at index i-1 if possible."
+  ],
+  "memoryLimit": 256,
+  "timeLimit": 2000
+},
+{
+  "title": "Remove Duplicates",
+  "description": "Given an array of integers, remove duplicate elements and return the array with only unique elements in sorted order.\n\nImplement an efficient solution.",
+  "difficulty": "medium",
+  "companyTags": ["Google", "Adobe"],
+  "topics": ["array"],
+  "pattern": ["two pointers"],
+  "visibleTestCases": [
+    {
+      "input": "6\n1 2 2 3 4 4",
+      "output": "1 2 3 4",
+      "explanation": "Duplicates (2 and 4) are removed, unique sorted array is [1,2,3,4]."
+    },
+    {
+      "input": "5\n5 5 5 5 5",
+      "output": "5",
+      "explanation": "All elements are duplicates, only one '5' remains."
+    }
+  ],
+  "hiddenTestCases": [
+    {
+      "input": "7\n10 20 10 30 20 40 50",
+      "output": "10 20 30 40 50"
+    },
+    {
+      "input": "4\n9 8 7 9",
+      "output": "7 8 9"
+    },
+    {
+      "input": "1\n42",
+      "output": "42"
+    }
+  ],
+  "starterCode": [
+    {
+      "language": "JavaScript",
+      "code": "const readline = require('readline');\nconst rl = readline.createInterface({\n  input: process.stdin,\n  output: process.stdout,\n  terminal: false\n});\n\nlet input = [];\nrl.on('line', function (line) {\n  input.push(line);\n});\n\nrl.on('close', function () {\n  const n = parseInt(input[0]);\n  const arr = input[1].split(' ').map(Number);\n  \n  function removeDuplicates(arr) {\n    // TODO: Remove duplicates and return sorted unique array\n    return [];\n  }\n  \n  console.log(removeDuplicates(arr).join(' '));\n});"
+    },
+    {
+      "language": "Java",
+      "code": "import java.util.*;\n\npublic class Main {\n    public static List<Integer> removeDuplicates(int[] arr) {\n        // TODO: Remove duplicates and return sorted unique list\n        return new ArrayList<>();\n    }\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        int[] arr = new int[n];\n        for (int i = 0; i < n; i++) arr[i] = sc.nextInt();\n        List<Integer> res = removeDuplicates(arr);\n        for (int x : res) System.out.print(x + \" \");\n    }\n}"
+    },
+    {
+      "language": "C++",
+      "code": "#include <bits/stdc++.h>\nusing namespace std;\n\nvector<int> removeDuplicates(vector<int>& arr) {\n    // TODO: Remove duplicates and return sorted unique array\n    return {};\n}\n\nint main() {\n    int n;\n    cin >> n;\n    vector<int> arr(n);\n    for (int i = 0; i < n; i++) cin >> arr[i];\n    vector<int> res = removeDuplicates(arr);\n    for (int x : res) cout << x << \" \";\n    return 0;\n}"
+    }
+  ],
+  "solutions": [
+    {
+      "language": "JavaScript",
+      "code": "const readline = require('readline');\nconst rl = readline.createInterface({\n  input: process.stdin,\n  output: process.stdout,\n  terminal: false\n});\n\nlet input = [];\nrl.on('line', function (line) {\n  input.push(line);\n});\n\nrl.on('close', function () {\n  const n = parseInt(input[0]);\n  const arr = input[1].split(' ').map(Number);\n  \n  function removeDuplicates(arr) {\n    const unique = Array.from(new Set(arr));\n    unique.sort((a, b) => a - b);\n    return unique;\n  }\n  \n  console.log(removeDuplicates(arr).join(' '));\n});"
+    },
+    {
+      "language": "Java",
+      "code": "import java.util.*;\n\npublic class Main {\n    public static List<Integer> removeDuplicates(int[] arr) {\n        Set<Integer> set = new TreeSet<>();\n        for (int num : arr) set.add(num);\n        return new ArrayList<>(set);\n    }\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        int[] arr = new int[n];\n        for (int i = 0; i < n; i++) arr[i] = sc.nextInt();\n        List<Integer> res = removeDuplicates(arr);\n        for (int x : res) System.out.print(x + \" \");\n    }\n}"
+    },
+    {
+      "language": "C++",
+      "code": "#include <bits/stdc++.h>\nusing namespace std;\n\nvector<int> removeDuplicates(vector<int>& arr) {\n    set<int> s(arr.begin(), arr.end());\n    vector<int> res(s.begin(), s.end());\n    return res;\n}\n\nint main() {\n    int n;\n    cin >> n;\n    vector<int> arr(n);\n    for (int i = 0; i < n; i++) cin >> arr[i];\n    vector<int> res = removeDuplicates(arr);\n    for (int x : res) cout << x << \" \";\n    return 0;\n}"
+    }
+  ],
+  "constraints": "1 ≤ arr.length ≤ 10^5 -10^9 ≤ arr[i] ≤ 10^9",
+  "hints": [
+    "Use a Set data structure to store unique elements.",
+    "Sort the result before returning."
+  ],
+  "memoryLimit": 256,
+  "timeLimit": 1000
+},
+{
+  "title": "Reverse Array",
+  "description": "Reverse the given array in-place.\n\nImplement an efficient solution.",
+  "difficulty": "easy",
+  "companyTags": ["Amazon", "Microsoft"],
+  "topics": ["array"],
+  "pattern": ["two pointers"],
+  "visibleTestCases": [
+    {
+      "input": "5\n1 2 3 4 5",
+      "output": "5 4 3 2 1",
+      "explanation": "Array elements in reverse order."
+    },
+    {
+      "input": "1\n42",
+      "output": "42",
+      "explanation": "Single element remains the same."
+    }
+  ],
+  "hiddenTestCases": [
+    {
+      "input": "4\n2 4 6 8",
+      "output": "8 6 4 2"
+    },
+    {
+      "input": "3\n10 20 30",
+      "output": "30 20 10"
+    }
+  ],
+  "starterCode": [
+    {
+      "language": "JavaScript",
+      "code": "const readline = require('readline');\nconst rl = readline.createInterface({\n  input: process.stdin,\n  output: process.stdout,\n  terminal: false\n});\n\nlet input = [];\nrl.on('line', function (line) {\n  input.push(line);\n});\n\nrl.on('close', function () {\n  const n = parseInt(input[0]);\n  if (n === 0) {\n    console.log('');\n    return;\n  }\n  const arr = input[1].split(' ').map(Number);\n  \n  function reverseArray(arr) {\n    // TODO: Reverse the array\n    return [];\n  }\n  \n  console.log(reverseArray(arr).join(' '));\n});"
+    },
+    {
+      "language": "Java",
+      "code": "import java.util.*;\n\npublic class Main {\n    public static List<Integer> reverseArray(int[] arr) {\n        // TODO: Reverse the array\n        return new ArrayList<>();\n    }\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        if (n == 0) {\n            System.out.println(\"\");\n            return;\n        }\n        int[] arr = new int[n];\n        for (int i = 0; i < n; i++) arr[i] = sc.nextInt();\n        List<Integer> res = reverseArray(arr);\n        for (int x : res) System.out.print(x + \" \");\n    }\n}"
+    },
+    {
+      "language": "C++",
+      "code": "#include <bits/stdc++.h>\nusing namespace std;\n\nvector<int> reverseArray(vector<int>& arr) {\n    // TODO: Reverse the array\n    return {};\n}\n\nint main() {\n    int n;\n    cin >> n;\n    if (n == 0) {\n        cout << \"\";\n        return 0;\n    }\n    vector<int> arr(n);\n    for (int i = 0; i < n; i++) cin >> arr[i];\n    vector<int> res = reverseArray(arr);\n    for (int x : res) cout << x << \" \";\n    return 0;\n}"
+    }
+  ],
+  "solutions": [
+    {
+      "language": "JavaScript",
+      "code": "const readline = require('readline');\nconst rl = readline.createInterface({\n  input: process.stdin,\n  output: process.stdout,\n  terminal: false\n});\n\nlet input = [];\nrl.on('line', function (line) {\n  input.push(line);\n});\n\nrl.on('close', function () {\n  const n = parseInt(input[0]);\n  if (n === 0) {\n    console.log('');\n    return;\n  }\n  const arr = input[1].split(' ').map(Number);\n  \n  function reverseArray(arr) {\n    return arr.reverse();\n  }\n  \n  console.log(reverseArray(arr).join(' '));\n});"
+    },
+    {
+      "language": "Java",
+      "code": "import java.util.*;\n\npublic class Main {\n    public static List<Integer> reverseArray(int[] arr) {\n        List<Integer> list = new ArrayList<>();\n        for (int i = arr.length - 1; i >= 0; i--) list.add(arr[i]);\n        return list;\n    }\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        if (n == 0) {\n            System.out.println(\"\");\n            return;\n        }\n        int[] arr = new int[n];\n        for (int i = 0; i < n; i++) arr[i] = sc.nextInt();\n        List<Integer> res = reverseArray(arr);\n        for (int x : res) System.out.print(x + \" \");\n    }\n}"
+    },
+    {
+      "language": "C++",
+      "code": "#include <bits/stdc++.h>\nusing namespace std;\n\nvector<int> reverseArray(vector<int>& arr) {\n    reverse(arr.begin(), arr.end());\n    return arr;\n}\n\nint main() {\n    int n;\n    cin >> n;\n    if (n == 0) {\n        cout << \"\";\n        return 0;\n    }\n    vector<int> arr(n);\n    for (int i = 0; i < n; i++) cin >> arr[i];\n    vector<int> res = reverseArray(arr);\n    for (int x : res) cout << x << \" \";\n    return 0;\n}"
+    }
+  ],
+  "constraints": "0 ≤ arr.length ≤ 10^5 -10^9 ≤ arr[i] ≤ 10^9",
+  "hints": [
+    "Use two pointers from start and end.",
+    "Swap elements at both pointers and move towards center."
+  ],
+  "memoryLimit": 256,
+  "timeLimit": 1000
+},
+{
+  "title": "Sum of Array",
+  "description": "Calculate the sum of all elements in the array.\n\nImplement an efficient solution.",
+  "difficulty": "easy",
+  "companyTags": ["Amazon", "Google"],
+  "topics": ["array"],
+  "pattern": ["greedy"],
+  "visibleTestCases": [
+    {
+      "input": "5\n1 2 3 4 5",
+      "output": "15",
+      "explanation": "1 + 2 + 3 + 4 + 5 = 15"
+    },
+    {
+      "input": "3\n10 -5 3",
+      "output": "8",
+      "explanation": "10 + (-5) + 3 = 8"
+    }
+  ],
+  "hiddenTestCases": [
+    {
+      "input": "4\n100 200 300 400",
+      "output": "1000"
+    },
+    {
+      "input": "2\n-10 -20",
+      "output": "-30"
+    }
+  ],
+  "starterCode": [
+    {
+      "language": "JavaScript",
+      "code": "const readline = require('readline');\nconst rl = readline.createInterface({\n  input: process.stdin,\n  output: process.stdout,\n  terminal: false\n});\n\nlet input = [];\nrl.on('line', function (line) {\n  input.push(line);\n});\n\nrl.on('close', function () {\n  const n = parseInt(input[0]);\n  if (n === 0) {\n    console.log(0);\n    return;\n  }\n  const arr = input[1].split(' ').map(Number);\n  \n  function sumArray(arr) {\n    // TODO: Calculate sum of elements\n    return 0;\n  }\n  \n  console.log(sumArray(arr));\n});"
+    },
+    {
+      "language": "Java",
+      "code": "import java.util.*;\n\npublic class Main {\n    public static int sumArray(int[] arr) {\n        // TODO: Calculate sum of elements\n        return 0;\n    }\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        if (n == 0) {\n            System.out.println(0);\n            return;\n        }\n        int[] arr = new int[n];\n        for (int i = 0; i < n; i++) arr[i] = sc.nextInt();\n        System.out.println(sumArray(arr));\n    }\n}"
+    },
+    {
+      "language": "C++",
+      "code": "#include <bits/stdc++.h>\nusing namespace std;\n\nint sumArray(vector<int>& arr) {\n    // TODO: Calculate sum of elements\n    return 0;\n}\n\nint main() {\n    int n;\n    cin >> n;\n    if (n == 0) {\n        cout << 0;\n        return 0;\n    }\n    vector<int> arr(n);\n    for (int i = 0; i < n; i++) cin >> arr[i];\n    cout << sumArray(arr);\n    return 0;\n}"
+    }
+  ],
+  "solutions": [
+    {
+      "language": "JavaScript",
+      "code": "const readline = require('readline');\nconst rl = readline.createInterface({\n  input: process.stdin,\n  output: process.stdout,\n  terminal: false\n});\n\nlet input = [];\nrl.on('line', function (line) {\n  input.push(line);\n});\n\nrl.on('close', function () {\n  const n = parseInt(input[0]);\n  if (n === 0) {\n    console.log(0);\n    return;\n  }\n  const arr = input[1].split(' ').map(Number);\n  \n  function sumArray(arr) {\n    return arr.reduce((a, b) => a + b, 0);\n  }\n  \n  console.log(sumArray(arr));\n});"
+    },
+    {
+      "language": "Java",
+      "code": "import java.util.*;\n\npublic class Main {\n    public static int sumArray(int[] arr) {\n        int sum = 0;\n        for (int x : arr) sum += x;\n        return sum;\n    }\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        if (n == 0) {\n            System.out.println(0);\n            return;\n        }\n        int[] arr = new int[n];\n        for (int i = 0; i < n; i++) arr[i] = sc.nextInt();\n        System.out.println(sumArray(arr));\n    }\n}"
+    },
+    {
+      "language": "C++",
+      "code": "#include <bits/stdc++.h>\nusing namespace std;\n\nint sumArray(vector<int>& arr) {\n    int sum = 0;\n    for (int x : arr) sum += x;\n    return sum;\n}\n\nint main() {\n    int n;\n    cin >> n;\n    if (n == 0) {\n        cout << 0;\n        return 0;\n    }\n    vector<int> arr(n);\n    for (int i = 0; i < n; i++) cin >> arr[i];\n    cout << sumArray(arr);\n    return 0;\n}"
+    }
+  ],
+  "constraints": "0 ≤ arr.length ≤ 10^5 -10^9 ≤ arr[i] ≤ 10^9",
+  "hints": [
+    "Iterate through all elements and maintain a running sum.",
+    "Use built-in reduce/sum functions if available."
+  ],
+  "memoryLimit": 256,
+  "timeLimit": 1000
+}
+]

@@ -1,0 +1,379 @@
+[
+{
+  "title": "Check Palindrome",
+  "description": "Check if a string is a palindrome.\n\nImplement an efficient solution.",
+  "difficulty": "easy",
+  "companyTags": ["Amazon", "Microsoft"],
+  "topics": ["string"],
+  "pattern": ["two pointers"],
+  "visibleTestCases": [
+    {
+      "input": "\"racecar\"",
+      "output": "true",
+      "explanation": "reads the same forwards and backwards"
+    },
+    {
+      "input": "\"hello\"",
+      "output": "false",
+      "explanation": "not the same when reversed"
+    }
+  ],
+  "hiddenTestCases": [
+    {
+      "input": "\"A man a plan a canal Panama\"",
+      "output": "true"
+    },
+    {
+      "input": "\"race a car\"",
+      "output": "false"
+    },
+    {
+      "input": "\"Madam\"",
+      "output": "true"
+    }
+  ],
+  "starterCode": [
+    {
+      "language": "JavaScript",
+      "code": "function isPalindrome(s) {\n    // TODO: Check if string is palindrome\n    return false;\n}"
+    },
+    {
+      "language": "Java",
+      "code": "public static boolean isPalindrome(String s) {\n    // TODO: Check if string is palindrome\n    return false;\n}"
+    },
+    {
+      "language": "C++",
+      "code": "bool isPalindrome(string s) {\n    // TODO: Check if string is palindrome\n    return false;\n}"
+    }
+  ],
+  "solutions": [
+    {
+      "language": "JavaScript",
+      "code": "function isPalindrome(s) {\n    s = s.toLowerCase().replace(/[^a-z0-9]/g, '');\n    let left = 0, right = s.length - 1;\n    \n    while (left < right) {\n        if (s[left] !== s[right]) {\n            return false;\n        }\n        left++;\n        right--;\n    }\n    return true;\n}"
+    },
+    {
+      "language": "Java",
+      "code": "public static boolean isPalindrome(String s) {\n    s = s.toLowerCase().replaceAll(\"[^a-z0-9]\", \"\");\n    int left = 0, right = s.length() - 1;\n    \n    while (left < right) {\n        if (s.charAt(left) != s.charAt(right)) {\n            return false;\n        }\n        left++;\n        right--;\n    }\n    return true;\n}"
+    },
+    {
+      "language": "C++",
+      "code": "bool isPalindrome(string s) {\n    string cleaned = \"\";\n    for (char c : s) {\n        if (isalnum(c)) {\n            cleaned += tolower(c);\n        }\n    }\n    \n    int left = 0, right = cleaned.length() - 1;\n    while (left < right) {\n        if (cleaned[left] != cleaned[right]) {\n            return false;\n        }\n        left++;\n        right--;\n    }\n    return true;\n}"
+    }
+  ],
+  "constraints": "1 ≤ s.length ≤ 10^5",
+  "hints": [
+    "Use two pointers from both ends.",
+    "Ignore non-alphanumeric characters and case."
+  ],
+  "memoryLimit": 256,
+  "timeLimit": 1000
+},
+{
+  "title": "Count Characters",
+  "description": "Count the number of characters in a string.\n\nImplement an efficient solution.",
+  "difficulty": "easy",
+  "companyTags": ["Google", "Amazon"],
+  "topics": ["string"],
+  "pattern": ["greedy"],
+  "visibleTestCases": [
+    {
+      "input": "\"hello\"",
+      "output": "5",
+      "explanation": "\"hello\" has 5 characters"
+    },
+    {
+      "input": "\"OpenAI\"",
+      "output": "6",
+      "explanation": "\"OpenAI\" has 6 characters"
+    }
+  ],
+  "hiddenTestCases": [
+    {
+      "input": "\"a\"",
+      "output": "1"
+    },
+    {
+      "input": "\"  \"",
+      "output": "2"
+    },
+    {
+      "input": "\"ChatGPT\"",
+      "output": "7"
+    }
+  ],
+  "starterCode": [
+    {
+      "language": "JavaScript",
+      "code": "const readline = require('readline');\nconst rl = readline.createInterface({\n  input: process.stdin,\n  output: process.stdout,\n  terminal: false\n});\n\nlet input = [];\nrl.on('line', function (line) {\n  input.push(line);\n});\n\nrl.on('close', function () {\n  const s = input[0].replace(/\"/g, '');\n  \n  function countChars(s) {\n    // TODO: Count characters\n    return 0;\n  }\n  \n  console.log(countChars(s));\n});"
+    },
+    {
+      "language": "Java",
+      "code": "import java.util.*;\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        String s = sc.nextLine().replace(\"\\\"\", \"\");\n        System.out.println(countChars(s));\n    }\n    \n    public static int countChars(String s) {\n        // TODO: Count characters\n        return 0;\n    }\n}"
+    },
+    {
+      "language": "C++",
+      "code": "#include <bits/stdc++.h>\nusing namespace std;\n\nint countChars(string s) {\n    // TODO: Count characters\n    return 0;\n}\n\nint main() {\n    string s;\n    getline(cin, s);\n    // Remove quotes if present\n    if (s.front() == '\"') s = s.substr(1, s.length() - 2);\n    cout << countChars(s) << endl;\n    return 0;\n}"
+    }
+  ],
+  "solutions": [
+    {
+      "language": "JavaScript",
+      "code": "const readline = require('readline');\nconst rl = readline.createInterface({\n  input: process.stdin,\n  output: process.stdout,\n  terminal: false\n});\n\nlet input = [];\nrl.on('line', function (line) {\n  input.push(line);\n});\n\nrl.on('close', function () {\n  const s = input[0].replace(/\"/g, '');\n  \n  function countChars(s) {\n    return s.length;\n  }\n  \n  console.log(countChars(s));\n});"
+    },
+    {
+      "language": "Java",
+      "code": "import java.util.*;\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        String s = sc.nextLine().replace(\"\\\"\", \"\");\n        System.out.println(countChars(s));\n    }\n    \n    public static int countChars(String s) {\n        return s.length();\n    }\n}"
+    },
+    {
+      "language": "C++",
+      "code": "#include <bits/stdc++.h>\nusing namespace std;\n\nint countChars(string s) {\n    return s.length();\n}\n\nint main() {\n    string s;\n    getline(cin, s);\n    // Remove quotes if present\n    if (s.front() == '\"') s = s.substr(1, s.length() - 2);\n    cout << countChars(s) << endl;\n    return 0;\n}"
+    }
+  ],
+  "constraints": "0 ≤ s.length ≤ 10^5",
+  "hints": [
+    "Use the built-in length property/method."
+  ],
+  "memoryLimit": 256,
+  "timeLimit": 1000
+},
+{
+  "title": "Count Vowels",
+  "description": "Count the number of vowels (a, e, i, o, u) in a string.\n\nIgnore case.",
+  "difficulty": "easy",
+  "companyTags": ["Amazon", "Google"],
+  "topics": ["string"],
+  "pattern": ["greedy"],
+  "visibleTestCases": [
+    {
+      "input": "\"hello\"",
+      "output": "2",
+      "explanation": "e and o are vowels"
+    },
+    {
+      "input": "\"ChatGPT\"",
+      "output": "1",
+      "explanation": "only a is a vowel"
+    }
+  ],
+  "hiddenTestCases": [
+    {
+      "input": "\"aeiou\"",
+      "output": "5"
+    },
+    {
+      "input": "\"xyz\"",
+      "output": "0"
+    },
+    {
+      "input": "\"Programming\"",
+      "output": "3"
+    }
+  ],
+  "starterCode": [
+    {
+      "language": "JavaScript",
+      "code": "const readline = require('readline');\nconst rl = readline.createInterface({\n  input: process.stdin,\n  output: process.stdout,\n  terminal: false\n});\n\nlet input = [];\nrl.on('line', function (line) {\n  input.push(line);\n});\n\nrl.on('close', function () {\n  const s = input[0].replace(/\"/g, '');\n  \n  function countVowels(s) {\n    // TODO: Count vowels in string\n    return 0;\n  }\n  \n  console.log(countVowels(s));\n});"
+    },
+    {
+      "language": "Java",
+      "code": "public static int countVowels(String s) {\n    // TODO: Count vowels in string\n    return 0;\n}"
+    },
+    {
+      "language": "C++",
+      "code": "int countVowels(string s) {\n    // TODO: Count vowels in string\n    return 0;\n}"
+    }
+  ],
+  "solutions": [
+    {
+      "language": "JavaScript",
+      "code": "function countVowels(s) {\n    let count = 0;\n    s = s.toLowerCase();\n    for (let c of s) {\n        if (\"aeiou\".includes(c)) count++;\n    }\n    return count;\n}"
+    },
+    {
+      "language": "Java",
+      "code": "public static int countVowels(String s) {\n    int count = 0;\n    s = s.toLowerCase();\n    for (char c : s.toCharArray()) {\n        if (\"aeiou\".indexOf(c) != -1) count++;\n    }\n    return count;\n}"
+    },
+    {
+      "language": "C++",
+      "code": "int countVowels(string s) {\n    int count = 0;\n    for (char c : s) {\n        c = tolower(c);\n        if (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u') count++;\n    }\n    return count;\n}"
+    }
+  ],
+  "constraints": "0 ≤ s.length ≤ 10^5",
+  "hints": [
+    "Iterate through each character.",
+    "Check if the character is a vowel (case-insensitive)."
+  ],
+  "memoryLimit": 256,
+  "timeLimit": 1000
+},
+{
+    "title": "Find the Index of the First Occurrence in a String",
+    "description": "Given two strings haystack and needle, return the index of the first occurrence of needle in haystack, or -1 if needle is not part of haystack. If needle is an empty string, return 0 (consistent with C's strstr() and Java's indexOf()).",
+    "difficulty": "easy",
+    "companyTags": ["Amazon", "Microsoft"],
+    "topics": ["string", "two pointers"],
+    "pattern": ["two pointers"],
+    "visibleTestCases": [
+      {
+        "input": "haystack = \"hello\", needle = \"ll\"",
+        "output": "2",
+        "explanation": "The substring \"ll\" first occurs starting at index 2."
+      }
+    ],
+    "hiddenTestCases": [
+      { "input": "haystack = \"aaaaa\", needle = \"bba\"", "output": "-1" },
+      { "input": "haystack = \"\", needle = \"\"", "output": "0" },
+      { "input": "haystack = \"abc\", needle = \"\"", "output": "0" }
+    ],
+    "starterCode": [
+      { "language": "JavaScript", "code": "function solve(haystack, needle) {\n    // TODO: Implement your solution\n    return -1;\n}\nconsole.log(solve(\"hello\", \"ll\"));" },
+      { "language": "Java", "code": "class Solution {\n    public int solve(String haystack, String needle) {\n        // TODO: Implement your solution\n        return -1;\n    }\n    public static void main(String[] args) {\n        Solution sol = new Solution();\n        System.out.println(sol.solve(\"hello\", \"ll\"));\n    }\n}" },
+      { "language": "C++", "code": "#include <bits/stdc++.h>\nusing namespace std;\nint solve(const string& haystack, const string& needle) {\n    // TODO: Implement your solution\n    return -1;\n}\nint main() {\n    cout << solve(\"hello\", \"ll\");\n    return 0;\n}" }
+    ],
+    "solutions": [
+      { "language": "JavaScript", "code": "function solve(haystack, needle) {\n    if (needle === \"\") return 0;\n    return haystack.indexOf(needle);\n}" },
+      { "language": "Java", "code": "class Solution {\n    public int solve(String haystack, String needle) {\n        if (needle.isEmpty()) return 0;\n        return haystack.indexOf(needle);\n    }\n}" },
+      { "language": "C++", "code": "#include <bits/stdc++.h>\nusing namespace std;\nint solve(const string& haystack, const string& needle) {\n    if (needle.empty()) return 0;\n    auto pos = haystack.find(needle);\n    return (pos == string::npos) ? -1 : (int)pos;\n}" }
+    ],
+    "constraints": "0 ≤ haystack.length, needle.length ≤ 10^4",
+    "hints": [
+      "Use built-in string search methods.",
+      "Consider KMP algorithm for optimal solution."
+    ],
+    "memoryLimit": 256,
+    "timeLimit": 1000
+},
+{
+  "title": "First Non-Repeating Character",
+  "description": "Find the first non-repeating character in a string.\n\nReturn the character itself. If none exists, return a space (' ').",
+  "difficulty": "easy",
+  "companyTags": ["Amazon", "Microsoft"],
+  "topics": ["string"],
+  "pattern": ["greedy"],
+  "visibleTestCases": [
+    {
+      "input": "\"leetcode\"",
+      "output": "\"l\"",
+      "explanation": "l is the first non-repeating character"
+    },
+    {
+      "input": "\"aabb\"",
+      "output": "\" \"",
+      "explanation": "all characters repeat"
+    }
+  ],
+  "hiddenTestCases": [
+    {
+      "input": "\"swiss\"",
+      "output": "\"w\""
+    },
+    {
+      "input": "\"success\"",
+      "output": "\"u\""
+    },
+    {
+      "input": "\"zzz\"",
+      "output": "\" \""
+    }
+  ],
+  "starterCode": [
+    {
+      "language": "JavaScript",
+      "code": "function firstUniqueChar(s) {\n    // TODO: Find first non-repeating character\n    return ' ';\n}"
+    },
+    {
+      "language": "Java",
+      "code": "public static char firstUniqueChar(String s) {\n    // TODO: Find first non-repeating character\n    return ' ';\n}"
+    },
+    {
+      "language": "C++",
+      "code": "char firstUniqueChar(string s) {\n    // TODO: Find first non-repeating character\n    return ' ';\n}"
+    }
+  ],
+  "solutions": [
+    {
+      "language": "JavaScript",
+      "code": "function firstUniqueChar(s) {\n    let freq = {};\n    for (let c of s) freq[c] = (freq[c] || 0) + 1;\n    for (let c of s) if (freq[c] === 1) return c;\n    return ' ';\n}"
+    },
+    {
+      "language": "Java",
+      "code": "public static char firstUniqueChar(String s) {\n    int[] freq = new int[256];\n    for (char c : s.toCharArray()) freq[c]++;\n    for (char c : s.toCharArray()) if (freq[c] == 1) return c;\n    return ' ';\n}"
+    },
+    {
+      "language": "C++",
+      "code": "char firstUniqueChar(string s) {\n    unordered_map<char,int> freq;\n    for (char c : s) freq[c]++;\n    for (char c : s) if (freq[c] == 1) return c;\n    return ' ';\n}"
+    }
+  ],
+  "constraints": "1 ≤ s.length ≤ 10^5",
+  "hints": [
+    "Use a hash map to count character frequencies.",
+    "Make two passes: one to count, one to find first unique."
+  ],
+  "memoryLimit": 256,
+  "timeLimit": 1000
+},
+{
+  "title": "Reverse a String",
+  "description": "Given a string, return its reverse.\n\nImplement an efficient solution.",
+  "difficulty": "easy",
+  "companyTags": ["Google", "Amazon"],
+  "topics": ["string"],
+  "pattern": ["two pointers"],
+  "visibleTestCases": [
+    {
+      "input": "\"hello\"",
+      "output": "\"olleh\"",
+      "explanation": "Reversing 'hello' gives 'olleh'"
+    },
+    {
+      "input": "\"racecar\"",
+      "output": "\"racecar\"",
+      "explanation": "Palindrome remains the same when reversed"
+    }
+  ],
+  "hiddenTestCases": [
+    {
+      "input": "\"abc\"",
+      "output": "\"cba\""
+    },
+    {
+      "input": "\"a\"",
+      "output": "\"a\""
+    }
+  ],
+  "starterCode": [
+    {
+      "language": "JavaScript",
+      "code": "function reverseString(str) {\n // TODO: Reverse the string\n return \"\";\n}"
+    },
+    {
+      "language": "Java",
+      "code": "public static String reverseString(String str) {\n // TODO: Reverse the string\n return \"\";\n}"
+    },
+    {
+      "language": "C++",
+      "code": "string reverseString(string str) {\n // TODO: Reverse the string\n return \"\";\n}"
+    }
+  ],
+  "solutions": [
+    {
+      "language": "JavaScript",
+      "code": "function reverseString(str) {\n return str.split('').reverse().join('');\n}"
+    },
+    {
+      "language": "Java",
+      "code": "public static String reverseString(String str) {\n return new StringBuilder(str).reverse().toString();\n}"
+    },
+    {
+      "language": "C++",
+      "code": "string reverseString(string str) {\n reverse(str.begin(), str.end());\n return str;\n}"
+    }
+  ],
+  "constraints": "0 ≤ str.length ≤ 10^5",
+  "hints": [
+    "Use built-in reverse methods.",
+    "Alternatively, use two pointers from both ends."
+  ],
+  "memoryLimit": 256,
+  "timeLimit": 1000
+}
+]
