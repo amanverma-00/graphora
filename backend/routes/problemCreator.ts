@@ -16,6 +16,7 @@ import {
     getSolvedProblems,
     getSubmissions,
     getProblemsByCompany,
+    getProblemsByCategory,
     generateMockProblems,
 } from '../controller/problemController';
 
@@ -32,6 +33,7 @@ problemRouter.get('/user/solved', protect, validate(listProblemsSchema), getSolv
 
 problemRouter.post('/generate-mock', protect, submissionLimiter, generateMockProblems);
 
+problemRouter.get('/category/:category', protect, validate(listProblemsSchema), getProblemsByCategory);
 
 problemRouter.get('/company/:company', protect, getProblemsByCompany);
 
