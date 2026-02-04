@@ -11,6 +11,9 @@ import authRouter from './routes/userAuth'
 import problemRouter from './routes/problemCreator'
 import submitRouter from './routes/submit'
 import mockRouter from './routes/mock'
+import roadmapRouter from './routes/roadmap'
+import mentorRouter from './routes/mentor'
+import bookingRouter from './routes/booking'
 
 import {
   apiLimiter,
@@ -64,6 +67,9 @@ app.use('/api/auth', authRouter)
 app.use('/api/problems', problemRouter)
 app.use('/api/submit', submitRouter)
 app.use('/api/mocks', mockRouter)
+app.use('/api/roadmaps', roadmapRouter)
+app.use('/api/mentors', mentorRouter)
+app.use('/api/bookings', bookingRouter)
 
 app.use('/user', authRouter)
 app.use('/problem', problemRouter)

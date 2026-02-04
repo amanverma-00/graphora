@@ -5,17 +5,27 @@ import { clsx } from 'clsx'
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'primary' | 'secondary' | 'ghost' | 'outline' | 'destructive'
   size?: 'sm' | 'md' | 'lg'
+  isLoading?: boolean
   children: React.ReactNode
 }
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   (
-    { variant = 'primary', size = 'md', className, children, ...props },
+    {
+      variant = 'primary',
+      size = 'md',
+      className,
+      children,
+      isLoading,
+      disabled,
+      ...props
+    },
     ref,
   ) => {
     return (
       <button
         ref={ref}
+        disabled={disabled || isLoading}
         className={clsx(
           'inline-flex items-center justify-center rounded-md font-medium transition-colors',
           'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',

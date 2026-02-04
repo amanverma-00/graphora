@@ -281,8 +281,8 @@ export default function Signup() {
                   className={cn(
                     'pl-10',
                     confirmPassword &&
-                      password !== confirmPassword &&
-                      'border-destructive',
+                    password !== confirmPassword &&
+                    'border-destructive',
                   )}
                   required
                 />

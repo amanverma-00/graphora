@@ -8,6 +8,7 @@ import Card from '../components/ui/Card'
 
 export default function Signup() {
   const [name, setName] = useState('')
+  const [username, setUsername] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
@@ -32,7 +33,13 @@ export default function Signup() {
     setLoading(true)
 
     try {
-      await authService.register(name, email, password)
+      await authService.register({
+        name,
+        username,
+        email,
+        password,
+        passwordConfirm: confirmPassword,
+      })
       navigate('/login', {
         state: { message: 'Account created successfully! Please login.' },
       })
@@ -74,6 +81,23 @@ export default function Signup() {
                 onChange={(e) => setName(e.target.value)}
                 required
                 placeholder="John Doe"
+              />
+            </div>
+
+            <div>
+              <label
+                htmlFor="username"
+                className="block text-sm font-medium mb-2"
+              >
+                Username
+              </label>
+              <Input
+                id="username"
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                required
+                placeholder="john_doe"
               />
             </div>
 

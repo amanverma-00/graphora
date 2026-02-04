@@ -20,7 +20,11 @@ import {
     updateProfile,
     changePassword,
     forgotPassword,
-    resetPassword
+    resetPassword,
+    getUserStats,
+    getSkillAnalysis,
+    getAchievements,
+    syncProfile
 } from '../controller/authController';
 
 const authRouter: express.Router = express.Router();
@@ -38,7 +42,13 @@ authRouter.post('/reset-password', passwordResetLimiter, validate(resetPasswordS
 authRouter.post('/logout', protect, logout);
 authRouter.get('/profile', protect, getProfile);
 authRouter.patch('/profile', protect, validate(updateProfileSchema), updateProfile);
+authRouter.post('/profile/sync', protect, syncProfile);
 authRouter.patch('/change-password', protect, validate(changePasswordSchema), changePassword);
+
+// User statistics endpoints
+authRouter.get('/stats', protect, getUserStats);
+authRouter.get('/skills', protect, getSkillAnalysis);
+authRouter.get('/achievements', protect, getAchievements);
 
 // ==================== HEALTH CHECK ====================
 

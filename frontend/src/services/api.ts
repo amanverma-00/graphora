@@ -51,7 +51,17 @@ api.interceptors.response.use(
   },
 )
 
-export default api
+// Roadmap Service
+export const roadmapService = {
+  getAllRoadmaps: (params?: { domain?: string; level?: string; search?: string }) =>
+    api.get(`/roadmaps`, { params }),
+  getRoadmap: (slug: string) => api.get(`/roadmaps/${slug}`),
+  enroll: (id: string) => api.post(`/roadmaps/${id}/enroll`),
+  updateProgress: (id: string, moduleId: string) =>
+    api.patch(`/roadmaps/${id}/progress`, { moduleId }),
+}
+
+
 
 // API Services
 export const authService = {
@@ -91,6 +101,14 @@ export const authService = {
       linkedin?: string
       portfolio?: string
     }
+    platformHandles?: {
+      leetcode?: string
+      codeforces?: string
+      codechef?: string
+      hackerrank?: string
+      geeksforgeeks?: string
+      atcoder?: string
+    }
   }) => api.patch('/auth/profile', data),
 
   changePassword: (oldPassword: string, newPassword: string) =>
@@ -101,6 +119,14 @@ export const authService = {
 
   resetPassword: (token: string, password: string, passwordConfirm: string) =>
     api.post('/auth/reset-password', { token, password, passwordConfirm }),
+
+  getUserStats: () => api.get('/auth/stats'),
+
+  getSkillAnalysis: () => api.get('/auth/skills'),
+
+  getAchievements: () => api.get('/auth/achievements'),
+
+  syncProfile: () => api.post('/auth/profile/sync'),
 }
 
 export const problemService = {
@@ -207,3 +233,22 @@ export const mockService = {
   }) => api.get('/mocks/leaderboard', { params }),
   getSession: (sessionId: string) => api.get(`/mocks/${sessionId}`),
 }
+
+export const mentorService = {
+  getAll: (params?: { expertise?: string; company?: string; maxPrice?: number }) =>
+    api.get('/mentors', { params }),
+  getById: (id: string) => api.get(`/mentors/${id}`),
+  createProfile: (data: any) => api.post('/mentors', data),
+  updateProfile: (data: any) => api.patch('/mentors/me', data),
+  getMyProfile: () => api.get('/mentors/me'),
+}
+
+export const bookingService = {
+  create: (data: any) => api.post('/bookings', data),
+  getUserBookings: (role: 'student' | 'mentor' = 'student') =>
+    api.get('/bookings', { params: { role } }),
+  updateStatus: (id: string, status: string, reason?: string) =>
+    api.patch(`/bookings/${id}/status`, { status, cancellationReason: reason }),
+}
+
+export default api

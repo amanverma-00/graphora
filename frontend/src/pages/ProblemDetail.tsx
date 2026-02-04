@@ -12,14 +12,10 @@ import toast from 'react-hot-toast'
 import {
   Play,
   Send,
-  Clock,
-  MemoryStick,
   ChevronLeft,
   BookOpen,
   MessageSquare,
   Lightbulb,
-  RotateCcw,
-  Settings2,
   Maximize2,
   Timer,
   CheckCircle2,
@@ -27,22 +23,23 @@ import {
 import { cn, STARTER_CODE, type LanguageValue } from '../lib/utils'
 import { useProblem, useRunCode, useSubmitCode } from '../hooks'
 import {
-  CodeEditor,
-  LanguageSelector,
+  CustomCodeEditor,
   OutputConsole,
 } from '../components/editor'
-import { DifficultyBadge, TagPill } from '../components/problem'
+import { DifficultyBadge } from '../components/problem'
 import { ProblemDetailSkeleton } from '../components/common'
 import Button from '../components/ui/Button'
-import Card from '../components/ui/Card'
 import type { RunCodeResult } from '../types'
 
 // Tab options for the problem description panel
-type DescriptionTab = 'description' | 'editorial' | 'discuss' | 'submissions'
+type DescriptionTab = 'description' | 'solutions' | 'submissions' | 'aichat'
+
+// Tab options for the right panel (editor area)
+type EditorTab = 'code' | 'testcases' | 'results'
 
 /**
  * ProblemDetail - The core problem solving page with resizable split layout
- * Similar to HackerRank/LeetCode 2025 style
+ * Re-implemented from scratch to match reference design with dark theme
  */
 export default function ProblemDetail() {
   const { slug } = useParams<{ slug: string }>()
@@ -54,6 +51,7 @@ export default function ProblemDetail() {
   const [code, setCode] = useState('')
   const [language, setLanguage] = useState<LanguageValue>('javascript')
   const [activeTab, setActiveTab] = useState<DescriptionTab>('description')
+  const [editorTab, setEditorTab] = useState<EditorTab>('code')
 
   // Execution state
   const [testResult, setTestResult] = useState<RunCodeResult | null>(null)
@@ -116,16 +114,6 @@ export default function ProblemDetail() {
   const handleCodeChange = useCallback((newCode: string) => {
     setCode(newCode)
   }, [])
-
-  const handleResetCode = useCallback(() => {
-    if (problem?.starterCode && problem.starterCode[language]) {
-      setCode(problem.starterCode[language])
-    } else {
-      setCode(STARTER_CODE[language] || '')
-    }
-    localStorage.removeItem(`code_${problem?._id}_${language}`)
-    toast.success('Code reset to starter template')
-  }, [problem, language])
 
   const handleRun = useCallback(async () => {
     if (!problem) return
@@ -221,24 +209,15 @@ export default function ProblemDetail() {
       )}
     >
       {/* Top Bar */}
-      <div className="flex items-center justify-between px-4 py-2 border-b border-border bg-card shrink-0">
+      <div className="flex items-center justify-between px-4 py-2 border-b border-[#30363d] bg-[#161b22] shrink-0">
         <div className="flex items-center gap-4">
           <Link
             to="/problems"
-            className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors"
+            className="flex items-center gap-1 text-sm text-[#8b949e] hover:text-white transition-colors"
           >
             <ChevronLeft className="h-4 w-4" />
-            <span className="hidden sm:inline">Problems</span>
+            <span className="hidden sm:inline">Back to Problems</span>
           </Link>
-
-          <div className="h-4 w-px bg-border" />
-
-          <div className="flex items-center gap-2">
-            <h1 className="font-semibold text-foreground truncate max-w-[200px] sm:max-w-none">
-              {problem.title}
-            </h1>
-            <DifficultyBadge difficulty={problem.difficulty} />
-          </div>
         </div>
 
         <div className="flex items-center gap-3">
@@ -248,8 +227,8 @@ export default function ProblemDetail() {
             className={cn(
               'flex items-center gap-1.5 px-2 py-1 rounded-md text-sm font-mono transition-colors',
               isTimerRunning
-                ? 'bg-primary/10 text-primary'
-                : 'text-muted-foreground hover:text-foreground',
+                ? 'bg-[#238636]/20 text-[#238636]'
+                : 'text-[#8b949e] hover:text-white',
             )}
           >
             <Timer className="h-4 w-4" />
@@ -259,7 +238,7 @@ export default function ProblemDetail() {
           {/* Fullscreen toggle */}
           <button
             onClick={() => setIsFullscreen(!isFullscreen)}
-            className="p-1.5 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+            className="p-1.5 rounded-md text-[#8b949e] hover:text-white hover:bg-[#21262d] transition-colors"
             title="Toggle fullscreen"
           >
             <Maximize2 className="h-4 w-4" />
@@ -273,14 +252,15 @@ export default function ProblemDetail() {
         className="flex-1 min-h-0 w-full min-w-0"
       >
         {/* Left Panel - Problem Description */}
-        <Panel defaultSize={55} minSize={45} maxSize={70}>
-          <div className="h-full min-w-0 flex flex-col bg-background overflow-hidden">
+        <Panel defaultSize={50} minSize={30} maxSize={70}>
+          <div className="h-full min-w-0 flex flex-col bg-[#0d1117] overflow-hidden">
             {/* Description Tabs */}
-            <div className="flex items-center gap-1 px-4 pt-3 border-b border-border bg-card">
+            <div className="flex items-center gap-1 px-4 pt-3 border-b border-[#30363d] bg-[#161b22]">
               {[
                 { id: 'description', label: 'Description', icon: BookOpen },
-                { id: 'editorial', label: 'Editorial', icon: Lightbulb },
-                { id: 'discuss', label: 'Discuss', icon: MessageSquare },
+                { id: 'solutions', label: 'Solutions', icon: Lightbulb },
+                { id: 'submissions', label: 'Submissions', icon: CheckCircle2 },
+                { id: 'aichat', label: 'AI Chat', icon: MessageSquare },
               ].map((tab) => (
                 <button
                   key={tab.id}
@@ -288,8 +268,8 @@ export default function ProblemDetail() {
                   className={cn(
                     'flex items-center gap-1.5 px-3 py-2 text-sm font-medium border-b-2 -mb-px transition-colors',
                     activeTab === tab.id
-                      ? 'border-primary text-primary'
-                      : 'border-transparent text-muted-foreground hover:text-foreground',
+                      ? 'border-[#238636] text-[#238636]'
+                      : 'border-transparent text-[#8b949e] hover:text-white',
                   )}
                 >
                   <tab.icon className="h-4 w-4" />
@@ -299,47 +279,19 @@ export default function ProblemDetail() {
             </div>
 
             {/* Tab Content */}
-            <div className="flex-1 min-h-0 overflow-auto p-5">
+            <div className="flex-1 min-h-0 overflow-auto p-5 bg-[#0d1117]">
               {activeTab === 'description' && (
                 <div className="space-y-6">
-                  {/* Stats Bar */}
-                  <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
-                    {problem.timeLimit && (
-                      <span className="flex items-center gap-1">
-                        <Clock className="h-4 w-4" />
-                        {problem.timeLimit}ms
-                      </span>
-                    )}
-                    {problem.memoryLimit && (
-                      <span className="flex items-center gap-1">
-                        <MemoryStick className="h-4 w-4" />
-                        {problem.memoryLimit}MB
-                      </span>
-                    )}
-                    {problem.acceptanceRate !== undefined && (
-                      <span className="flex items-center gap-1">
-                        <CheckCircle2 className="h-4 w-4 text-green-500" />
-                        {problem.acceptanceRate.toFixed(1)}% acceptance
-                      </span>
-                    )}
-                    {problem.totalSubmissions !== undefined && (
-                      <span>
-                        {problem.totalSubmissions.toLocaleString()} submissions
-                      </span>
-                    )}
+                  {/* Problem Title with Badge */}
+                  <div className="flex items-center gap-3 flex-wrap">
+                    <h1 className="text-xl font-bold text-white">
+                      {problem.title}
+                    </h1>
+                    <DifficultyBadge difficulty={problem.difficulty} />
                   </div>
 
-                  {/* Tags */}
-                  {problem.topics && problem.topics.length > 0 && (
-                    <div className="flex flex-wrap gap-2">
-                      {problem.topics.map((topic) => (
-                        <TagPill key={topic} tag={topic} />
-                      ))}
-                    </div>
-                  )}
-
                   {/* Problem Description (Markdown) */}
-                  <div className="prose prose-sm dark:prose-invert max-w-none">
+                  <div className="prose prose-sm prose-invert max-w-none text-[#c9d1d9]">
                     <ReactMarkdown
                       remarkPlugins={[remarkGfm]}
                       rehypePlugins={[rehypeHighlight]}
@@ -351,43 +303,37 @@ export default function ProblemDetail() {
                   {/* Examples */}
                   {problem.examples && problem.examples.length > 0 && (
                     <div className="space-y-4">
-                      <h3 className="font-semibold text-foreground">
+                      <h3 className="font-bold text-white text-lg">
                         Examples
                       </h3>
                       {problem.examples.map((example, index) => (
-                        <Card key={index} className="p-4 space-y-3">
-                          <div className="text-sm font-medium text-muted-foreground">
+                        <div key={index} className="bg-[#161b22] rounded-lg p-4 space-y-4">
+                          <div className="text-sm font-semibold text-[#58a6ff]">
                             Example {index + 1}
                           </div>
-                          <div className="grid gap-3">
-                            <div>
-                              <label className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
-                                Input
-                              </label>
-                              <pre className="mt-1 p-3 rounded-md bg-muted text-sm font-mono overflow-x-auto">
-                                {example.input}
-                              </pre>
+                          <div className="space-y-3">
+                            {/* Input */}
+                            <div className="border-l-4 border-[#238636] pl-4">
+                              <span className="text-[#238636] font-medium text-sm">Input:</span>
+                              <span className="text-[#8b949e] text-sm ml-2">{example.input.split('\n')[0]}</span>
+                              {example.input.split('\n').slice(1).map((line, i) => (
+                                <div key={i} className="text-[#8b949e] text-sm font-mono">{line}</div>
+                              ))}
                             </div>
-                            <div>
-                              <label className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
-                                Output
-                              </label>
-                              <pre className="mt-1 p-3 rounded-md bg-muted text-sm font-mono overflow-x-auto">
-                                {example.output}
-                              </pre>
+                            {/* Output */}
+                            <div className="border-l-4 border-[#238636] pl-4">
+                              <span className="text-[#238636] font-medium text-sm">Output:</span>
+                              <span className="text-[#8b949e] text-sm ml-2 font-mono">{example.output}</span>
                             </div>
+                            {/* Explanation */}
                             {example.explanation && (
-                              <div>
-                                <label className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
-                                  Explanation
-                                </label>
-                                <p className="mt-1 text-sm text-muted-foreground">
-                                  {example.explanation}
-                                </p>
+                              <div className="border-l-4 border-[#238636] pl-4">
+                                <span className="text-[#58a6ff] font-medium text-sm">Explanation:</span>
+                                <span className="text-[#8b949e] text-sm ml-2">{example.explanation}</span>
                               </div>
                             )}
                           </div>
-                        </Card>
+                        </div>
                       ))}
                     </div>
                   )}
@@ -395,13 +341,13 @@ export default function ProblemDetail() {
                   {/* Constraints */}
                   {problem.constraints && problem.constraints.length > 0 && (
                     <div className="space-y-3">
-                      <h3 className="font-semibold text-foreground">
+                      <h3 className="font-bold text-white">
                         Constraints
                       </h3>
-                      <ul className="list-disc list-inside space-y-1.5 text-sm text-muted-foreground">
+                      <ul className="list-disc list-inside space-y-1.5 text-sm text-[#8b949e]">
                         {problem.constraints.map((constraint, index) => (
                           <li key={index}>
-                            <code className="text-foreground bg-muted px-1.5 py-0.5 rounded text-xs">
+                            <code className="text-[#c9d1d9] bg-[#21262d] px-1.5 py-0.5 rounded text-xs">
                               {constraint}
                             </code>
                           </li>
@@ -413,17 +359,17 @@ export default function ProblemDetail() {
                   {/* Company Tags */}
                   {problem.company && problem.company.length > 0 && (
                     <div className="space-y-2">
-                      <h3 className="font-semibold text-foreground text-sm">
+                      <h3 className="font-bold text-white text-sm">
                         Asked by
                       </h3>
                       <div className="flex flex-wrap gap-2">
                         {problem.company.map((company) => (
-                          <span
+                          <div
                             key={company}
-                            className="px-2 py-1 text-xs font-medium bg-muted text-muted-foreground rounded-md"
+                            className="px-2 py-1 text-xs font-medium bg-[#21262d] text-[#8b949e] rounded-md"
                           >
                             {company}
-                          </span>
+                          </div>
                         ))}
                       </div>
                     </div>
@@ -431,11 +377,11 @@ export default function ProblemDetail() {
                 </div>
               )}
 
-              {activeTab === 'editorial' && (
+              {activeTab === 'solutions' && (
                 <div className="flex flex-col items-center justify-center h-64 text-center">
                   <Lightbulb className="h-12 w-12 text-muted-foreground/50 mb-4" />
                   <h3 className="font-semibold text-foreground">
-                    Editorial Coming Soon
+                    Solutions Coming Soon
                   </h3>
                   <p className="text-sm text-muted-foreground mt-1">
                     Detailed solution explanations will be available here.
@@ -443,12 +389,22 @@ export default function ProblemDetail() {
                 </div>
               )}
 
-              {activeTab === 'discuss' && (
+              {activeTab === 'submissions' && (
+                <div className="flex flex-col items-center justify-center h-64 text-center">
+                  <CheckCircle2 className="h-12 w-12 text-muted-foreground/50 mb-4" />
+                  <h3 className="font-semibold text-foreground">Your Submissions</h3>
+                  <p className="text-sm text-muted-foreground mt-1">
+                    Your submission history will appear here.
+                  </p>
+                </div>
+              )}
+
+              {activeTab === 'aichat' && (
                 <div className="flex flex-col items-center justify-center h-64 text-center">
                   <MessageSquare className="h-12 w-12 text-muted-foreground/50 mb-4" />
-                  <h3 className="font-semibold text-foreground">Discussion</h3>
+                  <h3 className="font-semibold text-foreground">AI Chat</h3>
                   <p className="text-sm text-muted-foreground mt-1">
-                    Community discussions and hints will appear here.
+                    Get AI-powered hints and explanations here.
                   </p>
                 </div>
               )}
@@ -460,32 +416,85 @@ export default function ProblemDetail() {
         <PanelResizeHandle className="w-1.5 bg-border hover:bg-primary/50 active:bg-primary transition-colors cursor-col-resize" />
 
         {/* Right Panel - Code Editor */}
-        <Panel defaultSize={45} minSize={30}>
-          <div className="h-full min-w-0 flex flex-col bg-card overflow-hidden">
-            {/* Editor Header */}
-            <div className="flex items-center justify-between px-3 py-2 border-b border-border bg-muted/30 shrink-0">
-              <div className="flex items-center gap-3">
-                <LanguageSelector
-                  value={language}
-                  onChange={handleLanguageChange}
-                />
-
-                <button
-                  onClick={handleResetCode}
-                  className="flex items-center gap-1.5 px-2 py-1.5 text-sm text-muted-foreground hover:text-foreground rounded-md hover:bg-muted transition-colors"
-                  title="Reset to starter code"
-                >
-                  <RotateCcw className="h-4 w-4" />
-                  <span className="hidden sm:inline">Reset</span>
-                </button>
-
-                <button
-                  className="p-1.5 text-muted-foreground hover:text-foreground rounded-md hover:bg-muted transition-colors"
-                  title="Editor settings"
-                >
-                  <Settings2 className="h-4 w-4" />
-                </button>
+        <Panel defaultSize={50} minSize={30} maxSize={70}>
+          <div className="h-full min-w-0 flex flex-col bg-[#0d1117] overflow-hidden">
+            {/* Right Panel Tabs */}
+            <div className="flex items-center justify-between px-3 py-2 border-b border-[#30363d] bg-[#161b22] shrink-0">
+              <div className="flex items-center gap-1">
+                {[
+                  { id: 'code', label: 'Code', icon: '◇' },
+                  { id: 'testcases', label: 'Test Cases', icon: '▷' },
+                  { id: 'results', label: 'Results', icon: '✓' },
+                ].map((tab) => (
+                  <button
+                    key={tab.id}
+                    onClick={() => setEditorTab(tab.id as EditorTab)}
+                    className={cn(
+                      'flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium rounded-md transition-colors',
+                      editorTab === tab.id
+                        ? 'bg-[#238636] text-white'
+                        : 'text-[#8b949e] hover:text-white hover:bg-[#21262d]',
+                    )}
+                  >
+                    <span>{tab.icon}</span>
+                    {tab.label}
+                  </button>
+                ))}
               </div>
+            </div>
+
+            {/* Tab Content */}
+            <div className="flex-1 min-h-0 flex flex-col overflow-hidden">
+              {editorTab === 'code' && (
+                <>
+                  {/* Editor */}
+                  <div className="flex-1 min-h-0">
+                    <CustomCodeEditor
+                      value={code}
+                      onChange={handleCodeChange}
+                      language={language}
+                      onLanguageChange={handleLanguageChange}
+                      className="h-full"
+                    />
+                  </div>
+                </>
+              )}
+
+              {editorTab === 'testcases' && (
+                <div className="flex-1 overflow-auto p-4">
+                  <OutputConsole
+                    result={null}
+                    isLoading={false}
+                    className="h-full"
+                    problem={problem}
+                  />
+                </div>
+              )}
+
+              {editorTab === 'results' && (
+                <div className="flex-1 overflow-auto">
+                  <OutputConsole
+                    result={testResult}
+                    isLoading={
+                      runCodeMutation.isPending ||
+                      submitCodeMutation.isPending
+                    }
+                    className="h-full"
+                    problem={problem}
+                  />
+                </div>
+              )}
+            </div>
+
+            {/* Bottom Action Bar */}
+            <div className="flex items-center justify-between px-3 py-2 border-t border-[#30363d] bg-[#161b22] shrink-0">
+              <button
+                onClick={() => setIsConsoleOpen(!isConsoleOpen)}
+                className="flex items-center gap-1.5 px-3 py-1.5 text-sm text-[#8b949e] hover:text-white rounded-md hover:bg-[#21262d] transition-colors"
+              >
+                <span>↳</span>
+                Console
+              </button>
 
               <div className="flex items-center gap-2">
                 <Button
@@ -495,7 +504,7 @@ export default function ProblemDetail() {
                   }
                   variant="outline"
                   size="sm"
-                  className="gap-1.5"
+                  className="gap-1.5 bg-[#21262d] border-[#30363d] text-white hover:bg-[#30363d]"
                 >
                   <Play className="h-4 w-4" />
                   {runCodeMutation.isPending ? 'Running...' : 'Run'}
@@ -506,44 +515,13 @@ export default function ProblemDetail() {
                     runCodeMutation.isPending || submitCodeMutation.isPending
                   }
                   size="sm"
-                  className="gap-1.5"
+                  className="gap-1.5 bg-[#238636] hover:bg-[#2ea043] text-white"
                 >
                   <Send className="h-4 w-4" />
                   {submitCodeMutation.isPending ? 'Submitting...' : 'Submit'}
                 </Button>
               </div>
             </div>
-
-            {/* Code Editor & Console */}
-            <PanelGroup
-              orientation="vertical"
-              className="flex-1 min-h-0 min-w-0"
-            >
-              {/* Editor */}
-              <Panel defaultSize={60} minSize={30} maxSize={85}>
-                <CodeEditor
-                  value={code}
-                  onChange={handleCodeChange}
-                  language={language}
-                  className="h-full min-h-0 min-w-0"
-                  height="100%"
-                />
-              </Panel>
-
-              {/* Console - Always visible */}
-              <PanelResizeHandle className="h-1.5 bg-border hover:bg-primary/50 active:bg-primary transition-colors cursor-row-resize" />
-              <Panel defaultSize={40} minSize={15} maxSize={70}>
-                <OutputConsole
-                  result={testResult}
-                  isLoading={
-                    runCodeMutation.isPending ||
-                    submitCodeMutation.isPending
-                  }
-                  className="h-full"
-                  problem={problem}
-                />
-              </Panel>
-            </PanelGroup>
           </div>
         </Panel>
       </PanelGroup>

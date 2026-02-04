@@ -78,7 +78,7 @@ export function OutputConsole({
 
   return (
     <div
-      className={cn('flex flex-col bg-card border-t border-border', className)}
+      className={cn('flex flex-col bg-[#0d1117] border-t border-[#30363d]', className)}
     >
       <Tabs.Root
         value={activeTab}
@@ -86,14 +86,14 @@ export function OutputConsole({
         className="flex flex-col h-full"
       >
         {/* Tab List */}
-        <Tabs.List className="flex items-center gap-1 px-3 py-2 border-b border-border bg-muted/30">
+        <Tabs.List className="flex items-center gap-1 px-3 py-2 border-b border-[#30363d] bg-[#161b22]">
           <Tabs.Trigger
             value="output"
             className={cn(
               'flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium rounded-md transition-colors',
               activeTab === 'output'
-                ? 'bg-background text-foreground shadow-sm'
-                : 'text-muted-foreground hover:text-foreground',
+                ? 'bg-[#238636] text-white'
+                : 'text-[#8b949e] hover:text-white',
             )}
           >
             <Terminal className="h-4 w-4" />
@@ -105,13 +105,13 @@ export function OutputConsole({
             className={cn(
               'flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium rounded-md transition-colors',
               activeTab === 'testcases'
-                ? 'bg-background text-foreground shadow-sm'
-                : 'text-muted-foreground hover:text-foreground',
+                ? 'bg-[#238636] text-white'
+                : 'text-[#8b949e] hover:text-white',
             )}
           >
             Test Cases
             {result?.failedTests && result.failedTests.length > 0 && (
-              <span className="ml-1 px-1.5 py-0.5 text-xs bg-red-500/20 text-red-500 rounded-full">
+              <span className="ml-1 px-1.5 py-0.5 text-xs bg-[#da3633]/20 text-[#da3633] rounded-full">
                 {result.failedTests.length}
               </span>
             )}
@@ -120,7 +120,7 @@ export function OutputConsole({
           {/* Status indicator on the right */}
           <div className="ml-auto flex items-center gap-3">
             {isLoading ? (
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <div className="flex items-center gap-2 text-sm text-[#8b949e]">
                 <Loader2 className="h-4 w-4 animate-spin" />
                 Running...
               </div>
@@ -138,12 +138,12 @@ export function OutputConsole({
             ) : null}
 
             {result?.runtime !== undefined && (
-              <span className="text-xs text-muted-foreground">
+              <span className="text-xs text-[#8b949e]">
                 Runtime: {result.runtime}ms
               </span>
             )}
             {result?.memory !== undefined && (
-              <span className="text-xs text-muted-foreground">
+              <span className="text-xs text-[#8b949e]">
                 Memory: {result.memory.toFixed(1)} MB
               </span>
             )}
@@ -155,8 +155,8 @@ export function OutputConsole({
           {isLoading ? (
             <div className="flex items-center justify-center h-full">
               <div className="flex flex-col items-center gap-3">
-                <Loader2 className="h-8 w-8 animate-spin text-primary" />
-                <span className="text-sm text-muted-foreground">
+                <Loader2 className="h-8 w-8 animate-spin text-[#238636]" />
+                <span className="text-sm text-[#8b949e]">
                   Executing code...
                 </span>
               </div>
@@ -167,12 +167,12 @@ export function OutputConsole({
               {result.stdout && (
                 <div>
                   <div className="flex items-center justify-between mb-2">
-                    <h4 className="text-sm font-medium text-muted-foreground">
+                    <h4 className="text-sm font-medium text-[#8b949e]">
                       Standard Output
                     </h4>
                     <button
                       onClick={() => copyToClipboard(result.stdout!)}
-                      className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
+                      className="flex items-center gap-1 text-xs text-[#8b949e] hover:text-white transition-colors"
                     >
                       {copied ? (
                         <Check className="h-3 w-3" />
@@ -182,7 +182,7 @@ export function OutputConsole({
                       {copied ? 'Copied' : 'Copy'}
                     </button>
                   </div>
-                  <pre className="p-3 rounded-lg bg-muted text-sm font-mono whitespace-pre-wrap overflow-x-auto">
+                  <pre className="p-3 rounded-lg bg-[#161b22] text-[#c9d1d9] text-sm font-mono whitespace-pre-wrap overflow-x-auto">
                     {result.stdout}
                   </pre>
                 </div>
@@ -192,10 +192,10 @@ export function OutputConsole({
               {(result.error || result.stderr) && (
                 <div>
                   <div className="flex items-center gap-2 mb-2">
-                    <AlertTriangle className="h-4 w-4 text-red-500" />
-                    <h4 className="text-sm font-medium text-red-500">Error</h4>
+                    <AlertTriangle className="h-4 w-4 text-[#da3633]" />
+                    <h4 className="text-sm font-medium text-[#da3633]">Error</h4>
                   </div>
-                  <pre className="p-3 rounded-lg bg-red-500/10 text-red-500 text-sm font-mono whitespace-pre-wrap overflow-x-auto">
+                  <pre className="p-3 rounded-lg bg-[#da3633]/10 text-[#da3633] text-sm font-mono whitespace-pre-wrap overflow-x-auto">
                     {result.error || result.stderr}
                   </pre>
                 </div>
@@ -203,14 +203,14 @@ export function OutputConsole({
 
               {/* Success message */}
               {result.success && !result.stdout && (
-                <div className="flex items-center gap-3 p-4 rounded-lg bg-green-500/10">
-                  <CheckCircle2 className="h-6 w-6 text-green-500" />
+                <div className="flex items-center gap-3 p-4 rounded-lg bg-[#238636]/10">
+                  <CheckCircle2 className="h-6 w-6 text-[#238636]" />
                   <div>
-                    <p className="font-medium text-green-500">
+                    <p className="font-medium text-[#238636]">
                       All test cases passed!
                     </p>
                     {result.testCasesPassed !== undefined && (
-                      <p className="text-sm text-muted-foreground">
+                      <p className="text-sm text-[#8b949e]">
                         {result.testCasesPassed} / {result.totalTestCases} test
                         cases
                       </p>

@@ -1,16 +1,9 @@
-import {
-  Outlet,
-  NavLink,
-  Link,
-  useNavigate,
-  useLocation,
-} from 'react-router-dom'
-import { Code2, LogOut, User, Bell, Search } from 'lucide-react'
+import { Outlet, NavLink, Link, useLocation } from 'react-router-dom'
+import { Code2, LogOut, Bell, Search } from 'lucide-react'
 import { clsx } from 'clsx'
 import { useState, useRef, useEffect } from 'react'
 
 export default function Layout() {
-  const navigate = useNavigate()
   const location = useLocation()
   const [isProfileOpen, setIsProfileOpen] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)

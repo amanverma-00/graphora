@@ -126,12 +126,28 @@ export interface User {
   email: string
   username?: string
   avatar?: string
+  bio?: string
   role?: 'user' | 'admin'
   streak?: number
   solvedProblems?: number
   totalSubmissions?: number
   rank?: number
+  stats?: {
+    totalSubmissions?: number
+    acceptedSubmissions?: number
+    accuracy?: number
+    averageRuntime?: number
+    rank?: number
+  }
   badges?: Badge[]
+  platformHandles?: {
+    leetcode?: string
+    codeforces?: string
+    codechef?: string
+    hackerrank?: string
+    geeksforgeeks?: string
+    atcoder?: string
+  }
   createdAt?: string
 }
 

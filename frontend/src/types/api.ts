@@ -70,6 +70,14 @@ export interface User {
     linkedin?: string
     portfolio?: string
   }
+  platformHandles?: {
+    leetcode?: string
+    codeforces?: string
+    codechef?: string
+    hackerrank?: string
+    geeksforgeeks?: string
+    atcoder?: string
+  }
   createdAt: string
   updatedAt: string
 }

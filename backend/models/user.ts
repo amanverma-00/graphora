@@ -51,6 +51,14 @@ const UserSchema = new Schema<IUser>({
         linkedin: { type: String, trim: true },
         portfolio: { type: String, trim: true }
     },
+    platformHandles: {
+        leetcode: { type: String, trim: true },
+        codeforces: { type: String, trim: true },
+        codechef: { type: String, trim: true },
+        hackerrank: { type: String, trim: true },
+        geeksforgeeks: { type: String, trim: true },
+        atcoder: { type: String, trim: true }
+    },
     isActive: { type: Boolean, default: true }
 }, {
     timestamps: true,

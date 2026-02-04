@@ -68,8 +68,7 @@ export default function Dashboard() {
       limit: 4,
     },
   )
-  const { data: mockStats, isLoading: mockStatsLoading } = useMockStats()
-
+  const { data: mockStats } = useMockStats()
 
   const stats = [
     {

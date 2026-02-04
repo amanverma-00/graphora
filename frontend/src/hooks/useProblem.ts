@@ -110,7 +110,9 @@ const normalizeStarterCode = (value: unknown): Record<string, string> => {
 
 const normalizeConstraints = (value: unknown): string[] => {
   if (Array.isArray(value)) {
-    return value.filter((v): v is string => typeof v === 'string' && v.trim())
+    return value.filter(
+      (v): v is string => typeof v === 'string' && v.trim().length > 0,
+    )
   }
   if (typeof value === 'string') {
     const trimmed = value.trim()
@@ -189,7 +191,7 @@ const normalizeProblemDetail = (raw: unknown): Problem => {
   // Backend uses companyTags; UI expects company
   const company = Array.isArray(maybeProblem.companyTags)
     ? maybeProblem.companyTags.filter(
-        (v): v is string => typeof v === 'string' && v.trim(),
+        (v): v is string => typeof v === 'string' && v.trim().length > 0,
       )
     : []
 

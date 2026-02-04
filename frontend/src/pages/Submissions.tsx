@@ -340,8 +340,8 @@ export default function Submissions() {
           >
             <option value="all">All Languages</option>
             {LANGUAGES.map((lang) => (
-              <option key={lang.id} value={lang.name}>
-                {lang.name}
+              <option key={lang.value} value={lang.value}>
+                {lang.label}
               </option>
             ))}
           </select>

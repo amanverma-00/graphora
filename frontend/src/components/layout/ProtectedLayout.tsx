@@ -25,6 +25,7 @@ import {
   ChevronLeft,
   ChevronRight,
   Flame,
+  Map,
 } from 'lucide-react'
 import { cn } from '../../lib/utils'
 import { useTheme } from '../../context/ThemeContext'
@@ -40,6 +41,8 @@ interface NavItem {
 const mainNavItems: NavItem[] = [
   { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { to: '/problems', label: 'Practice', icon: FileCode2 },
+  { to: '/roadmaps', label: 'Roadmaps', icon: Map },
+  { to: '/mentors', label: 'Mentorship', icon: Users },
   { to: '/contests', label: 'Contests', icon: Trophy, badge: 2 },
   { to: '/leaderboard', label: 'Leaderboard', icon: Users },
 ]

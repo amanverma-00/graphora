@@ -12,6 +12,14 @@ import Problems from './pages/Problems'
 import CategoryProblems from './pages/CategoryProblems'
 import CategoryProblemDetail from './pages/CategoryProblemDetail'
 import ProblemDetail from './pages/ProblemDetail'
+import Profile from './pages/Profile'
+import Mock from './pages/Mock'
+import MockSession from './pages/MockSession'
+import Roadmaps from './pages/Roadmaps'
+import RoadmapDetail from './pages/RoadmapDetail'
+import Mentors from './pages/Mentors'
+import MentorProfile from './pages/MentorProfile'
+import Bookings from './pages/Bookings'
 import { Login, Signup, VerifyOTP } from './pages/auth'
 import LandingLayout from './layouts/LandingLayout'
 import Landing from './pages/Landing'
@@ -51,7 +59,7 @@ function App() {
             <BrowserRouter>
               <Routes>
                 {/* Public Landing Page */}
-                <Route path="/welcome" element={<LandingLayout />}>
+                <Route path="/" element={<LandingLayout />}>
                   <Route index element={<Landing />} />
                 </Route>
 
@@ -60,37 +68,63 @@ function App() {
                 <Route path="/signup" element={<Signup />} />
                 <Route path="/verify-otp" element={<VerifyOTP />} />
 
-                {/* Protected App Routes */}
-                <Route path="/" element={<ProtectedLayout />}>
-                  <Route index element={<Navigate to="/dashboard" replace />} />
-                  <Route path="dashboard" element={<Dashboard />} />
-                  <Route path="problems" element={<Problems />} />
+                {/* Protected App Routes - No /app prefix */}
+                <Route element={<ProtectedLayout />}>
+                  <Route path="/dashboard" element={<Dashboard />} />
+                  <Route path="/problems" element={<Problems />} />
                   <Route
-                    path="problems/:category/:index"
+                    path="/problems/:category/:index"
                     element={<CategoryProblemDetail />}
                   />
                   <Route
-                    path="problems/:category"
+                    path="/problems/:category"
                     element={<CategoryProblems />}
                   />
-                  <Route path="problem/:slug" element={<ProblemDetail />} />
-                  <Route path="submissions" element={<Submissions />} />
+                  <Route path="/problem/:slug" element={<ProblemDetail />} />
+                  <Route path="/submissions" element={<Submissions />} />
 
-                  {/* Placeholder routes */}
+                  {/* Roadmaps */}
                   <Route
-                    path="contests"
+                    path="/roadmaps"
+                    element={
+                      // Assuming ProtectedRoute is a component that wraps its children
+                      // and provides additional protection or context.
+                      // If ProtectedLayout already handles protection, this might be redundant
+                      // but is included as per instruction.
+                      <Roadmaps />
+                    }
+                  />
+                  <Route
+                    path="/roadmaps/:slug"
+                    element={
+                      // Assuming ProtectedRoute is a component that wraps its children
+                      // and provides additional protection or context.
+                      // If ProtectedLayout already handles protection, this might be redundant
+                      // but is included as per instruction.
+                      <RoadmapDetail />
+                    }
+                  />
+
+
+                  {/* Mentorship */}
+                  <Route path="/mentors" element={<Mentors />} />
+                  <Route path="/mentors/:id" element={<MentorProfile />} />
+                  <Route path="/bookings" element={<Bookings />} />
+
+                  {/* Mock Interviews */}
+                  <Route
+                    path="/contests"
                     element={<PlaceholderPage title="Contests" />}
                   />
                   <Route
-                    path="leaderboard"
+                    path="/leaderboard"
                     element={<PlaceholderPage title="Leaderboard" />}
                   />
+                  <Route path="/profile" element={<Profile />} />
+                  <Route path="/mock" element={<Mock />} />
+                  <Route path="/mock/:id" element={<MockSession />} />
                   <Route
-                    path="profile"
-                    element={<PlaceholderPage title="Profile" />}
-                  />
-                  <Route
-                    path="settings"
+                    path="/settings"
                     element={<PlaceholderPage title="Settings" />}
                   />
                 </Route>

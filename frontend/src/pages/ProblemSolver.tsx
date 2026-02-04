@@ -52,11 +52,12 @@ export default function ProblemSolver() {
   const fetchProblem = useCallback(async () => {
     try {
       const { data } = await problemService.getProblemBySlug(slug!)
-      setProblem(data.problem || data)
+      const payload = (data as any)?.data ?? data
+      setProblem(payload.problem || payload)
 
       // Set initial starter code
-      if (data.problem?.starterCode || data.starterCode) {
-        const starterCode = data.problem?.starterCode || data.starterCode
+      if (payload.problem?.starterCode || payload.starterCode) {
+        const starterCode = payload.problem?.starterCode || payload.starterCode
         if (starterCode[language]) {
           setCode(starterCode[language])
         }
@@ -100,8 +101,7 @@ export default function ProblemSolver() {
     setTestResults(null)
 
     try {
-      const { data } = await submissionService.runCode({
-        problemId: problem._id,
+      const { data } = await submissionService.runCode(problem._id, {
         language,
         code,
       })
@@ -126,8 +126,7 @@ export default function ProblemSolver() {
     setTestResults(null)
 
     try {
-      const { data } = await submissionService.submitCode({
-        problemId: problem._id,
+      const { data } = await submissionService.submitCode(problem._id, {
         language,
         code,
       })

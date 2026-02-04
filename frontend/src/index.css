@@ -4,20 +4,27 @@
 /* ===== Tailwind v4 Theme Configuration ===== */
 @theme {
   /* Border radius */
-  --radius-sm: 0.25rem; /* 4px */
-  --radius-md: 0.375rem; /* 6px */
-  --radius-lg: 0.5rem; /* 8px */
+  --radius-sm: 0.25rem;
+  /* 4px */
+  --radius-md: 0.375rem;
+  /* 6px */
+  --radius-lg: 0.5rem;
+  /* 8px */
 
   /* Custom colors using CSS color functions */
-  --color-border: hsl(220 13% 91%); /* #e2e8f0 */
+  --color-border: hsl(220 13% 91%);
+  /* #e2e8f0 */
   --color-input: hsl(220 13% 91%);
   --color-ring: hsl(142 72% 29%);
 
   /* HackerRank-ish Background aka 'White' usually, but dashboard is #f3f7f7 */
-  --color-background: hsl(180 20% 97%); /* #f3f7f7 light grayish cyan */
-  --color-foreground: hsl(215 14% 19%); /* #282f3a darker gray */
+  --color-background: hsl(180 20% 97%);
+  /* #f3f7f7 light grayish cyan */
+  --color-foreground: hsl(215 14% 19%);
+  /* #282f3a darker gray */
 
-  --color-card: hsl(0 0% 100%); /* White cards */
+  --color-card: hsl(0 0% 100%);
+  /* White cards */
   --color-card-foreground: hsl(215 14% 19%);
 
   /* HackerRank Green #00C365 -> hsl(151 100% 38%) or similar */
@@ -43,7 +50,8 @@
   --color-warning: hsl(38 92% 50%);
   --color-warning-foreground: hsl(0 0% 100%);
 
-  --color-dark-header: hsl(212 28% 18%); /* #212933 for header */
+  --color-dark-header: hsl(212 28% 18%);
+  /* #212933 for header */
 
   /* Animation */
   --animate-marquee: marquee 30s linear infinite;
@@ -52,6 +60,7 @@
     0% {
       transform: translateX(0%);
     }
+
     100% {
       transform: translateX(-50%);
     }
@@ -161,6 +170,7 @@
   .scrollbar-hidden::-webkit-scrollbar {
     display: none;
   }
+
   .scrollbar-hidden {
     -ms-overflow-style: none;
     scrollbar-width: none;
@@ -173,11 +183,11 @@
 }
 
 /* Resizable panels handle styles */
-[data-panel-group-direction='horizontal'] > [data-resize-handle] {
+[data-panel-group-direction='horizontal']>[data-resize-handle] {
   width: 4px !important;
 }
 
-[data-panel-group-direction='vertical'] > [data-resize-handle] {
+[data-panel-group-direction='vertical']>[data-resize-handle] {
   height: 4px !important;
 }
 
@@ -206,6 +216,7 @@
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -216,6 +227,7 @@
     opacity: 0;
     transform: translateY(10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -228,4 +240,50 @@
 
 .animate-slide-up {
   animation: slide-up 0.3s ease-out;
+}
+
+/* ===== Custom Code Editor Syntax Highlighting ===== */
+.syntax-keyword {
+  color: #ff7b72;
+  /* Red-ish for keywords */
+}
+
+.syntax-string {
+  color: #a5d6ff;
+  /* Light blue for strings */
+}
+
+.syntax-comment {
+  color: #8b949e;
+  /* Gray for comments */
+  font-style: italic;
+}
+
+.syntax-number {
+  color: #79c0ff;
+  /* Blue for numbers */
+}
+
+.syntax-function {
+  color: #d2a8ff;
+  /* Purple for functions */
+}
+
+/* Custom Code Editor scrollbar styling */
+.custom-code-editor::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.custom-code-editor::-webkit-scrollbar-track {
+  background: #161b22;
+}
+
+.custom-code-editor::-webkit-scrollbar-thumb {
+  background: #30363d;
+  border-radius: 4px;
+}
+
+.custom-code-editor::-webkit-scrollbar-thumb:hover {
+  background: #484f58;
 }

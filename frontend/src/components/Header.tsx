@@ -17,18 +17,17 @@ const Header: React.FC = () => {
   const navItems = [
     { label: 'Roadmaps', href: '#roadmaps' },
     { label: 'Companies', href: '#companies' },
-    { label: 'Mock Tests', href: '#mocks' },
+    { label: 'Mock Tests', href: '/app/mock' },
     { label: 'Resources', href: '#resources' },
-    { label: 'Coding Profile', href: '#profile' },
+    { label: 'Coding Profile', href: '/app/profile' },
   ]
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled
           ? 'bg-background border-b border-border'
           : 'bg-background border-b border-transparent'
-      }`}
+        }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
