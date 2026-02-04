@@ -20,7 +20,7 @@ import RoadmapDetail from './pages/RoadmapDetail'
 import Mentors from './pages/Mentors'
 import MentorProfile from './pages/MentorProfile'
 import Bookings from './pages/Bookings'
-import { Login, Signup, VerifyOTP } from './pages/auth'
+import { Login, Signup, VerifyOTP, ForgotPassword, ResetPassword } from './pages/auth'
 import LandingLayout from './layouts/LandingLayout'
 import Landing from './pages/Landing'
 
@@ -67,6 +67,8 @@ function App() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<Signup />} />
                 <Route path="/verify-otp" element={<VerifyOTP />} />
+                <Route path="/forgot-password" element={<ForgotPassword />} />
+                <Route path="/reset-password" element={<ResetPassword />} />
 
                 {/* Protected App Routes - No /app prefix */}
                 <Route element={<ProtectedLayout />}>

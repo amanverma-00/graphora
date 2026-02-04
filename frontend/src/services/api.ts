@@ -116,9 +116,8 @@ export const authService = {
 
   forgotPassword: (email: string) =>
     api.post('/auth/forgot-password', { email }),
-
-  resetPassword: (token: string, password: string, passwordConfirm: string) =>
-    api.post('/auth/reset-password', { token, password, passwordConfirm }),
+  resetPassword: (data: { token: string; password: string; passwordConfirm: string }) =>
+    api.post('/auth/reset-password', data),
 
   getUserStats: () => api.get('/auth/stats'),
 
