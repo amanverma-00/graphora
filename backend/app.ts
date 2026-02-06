@@ -71,10 +71,6 @@ app.use('/api/roadmaps', roadmapRouter)
 app.use('/api/mentors', mentorRouter)
 app.use('/api/bookings', bookingRouter)
 
-app.use('/user', authRouter)
-app.use('/problem', problemRouter)
-app.use('/problemSubmission', submitRouter)
-app.use('/mock', mockRouter)
 
 app.use(notFound)
 app.use(errorHandler)

@@ -7,19 +7,58 @@ import {
   CheckCircle2,
   Target,
 } from 'lucide-react'
+import { useEffect, useRef } from 'react'
 import { useAuth } from '../context/AuthContext'
 import Button from '../components/ui/Button'
 import LogoMarquee from '../components/LogoMarquee'
 
 export default function Landing() {
   const { isAuthenticated } = useAuth()
+  const landingRef = useRef<HTMLDivElement | null>(null)
 
   if (isAuthenticated) {
     return <Navigate to="/dashboard" replace />
   }
 
+  useEffect(() => {
+    const el = landingRef.current
+    if (!el) return
+
+    let scheduled = false
+
+    const update = () => {
+      scheduled = false
+
+      const doc = document.documentElement
+      const maxScroll = Math.max(1, doc.scrollHeight - window.innerHeight)
+      const raw = window.scrollY / maxScroll
+
+      // Reveal the gradient mostly in the lower part of the page.
+      const start = 0.18
+      const end = 0.65
+      const progress = Math.min(1, Math.max(0, (raw - start) / (end - start)))
+
+      el.style.setProperty('--landing-scroll', progress.toFixed(4))
+    }
+
+    const onScroll = () => {
+      if (scheduled) return
+      scheduled = true
+      requestAnimationFrame(update)
+    }
+
+    update()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    window.addEventListener('resize', onScroll)
+
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', onScroll)
+    }
+  }, [])
+
   return (
-    <div className="min-h-screen">
+    <div ref={landingRef} className="min-h-screen landing-scroll-gradient">
       {/* Hero Section */}
       <section className="relative pt-32 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
         {/* Background Gradient */}

@@ -92,7 +92,7 @@ export default function MockSession() {
     if (!id) return
     try {
       await completeMock.mutateAsync(id)
-      navigate(`/app/mock/${id}/results`)
+      navigate(`/mock/${id}/results`)
     } catch (error) {
       console.error('Failed to complete mock:', error)
     }
@@ -102,7 +102,7 @@ export default function MockSession() {
     if (!id) return
     try {
       await abandonMock.mutateAsync(id)
-      navigate('/app/mock')
+      navigate('/mock')
     } catch (error) {
       console.error('Failed to abandon mock:', error)
     }
@@ -130,7 +130,7 @@ export default function MockSession() {
           <p className="text-muted-foreground mb-4">
             This mock session doesn't exist or has expired.
           </p>
-          <Button onClick={() => navigate('/app/mock')}>Back to Mocks</Button>
+          <Button onClick={() => navigate('/mock')}>Back to Mocks</Button>
         </div>
       </div>
     )
@@ -173,10 +173,10 @@ export default function MockSession() {
             </>
           )}
           <div className="flex gap-3 justify-center">
-            <Button variant="outline" onClick={() => navigate('/app/mock')}>
+            <Button variant="outline" onClick={() => navigate('/mock')}>
               Back to Mocks
             </Button>
-            <Button onClick={() => navigate('/app/mock')}>
+            <Button onClick={() => navigate('/mock')}>
               Start New Mock
             </Button>
           </div>

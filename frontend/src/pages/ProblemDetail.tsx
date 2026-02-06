@@ -378,34 +378,49 @@ export default function ProblemDetail() {
               )}
 
               {activeTab === 'solutions' && (
-                <div className="flex flex-col items-center justify-center h-64 text-center">
-                  <Lightbulb className="h-12 w-12 text-muted-foreground/50 mb-4" />
-                  <h3 className="font-semibold text-foreground">
-                    Solutions Coming Soon
-                  </h3>
-                  <p className="text-sm text-muted-foreground mt-1">
-                    Detailed solution explanations will be available here.
-                  </p>
+                <div className="h-full flex flex-col space-y-6">
+                  <div className="flex items-center gap-3 shrink-0">
+                    <h1 className="text-xl font-bold text-white">Solutions</h1>
+                  </div>
+                  <div className="flex-1 flex flex-col items-center justify-center border border-dashed border-[#30363d] rounded-lg bg-[#161b22]/50">
+                    <Lightbulb className="h-10 w-10 text-[#8b949e]/50 mb-3" />
+                    <h3 className="font-semibold text-white">
+                      Solutions Coming Soon
+                    </h3>
+                    <p className="text-sm text-[#8b949e] mt-1 text-center px-4">
+                      Detailed solution explanations will be available here.
+                    </p>
+                  </div>
                 </div>
               )}
 
               {activeTab === 'submissions' && (
-                <div className="flex flex-col items-center justify-center h-64 text-center">
-                  <CheckCircle2 className="h-12 w-12 text-muted-foreground/50 mb-4" />
-                  <h3 className="font-semibold text-foreground">Your Submissions</h3>
-                  <p className="text-sm text-muted-foreground mt-1">
-                    Your submission history will appear here.
-                  </p>
+                <div className="h-full flex flex-col space-y-6">
+                  <div className="flex items-center gap-3 shrink-0">
+                    <h1 className="text-xl font-bold text-white">Submissions</h1>
+                  </div>
+                  <div className="flex-1 flex flex-col items-center justify-center border border-dashed border-[#30363d] rounded-lg bg-[#161b22]/50">
+                    <CheckCircle2 className="h-10 w-10 text-[#8b949e]/50 mb-3" />
+                    <h3 className="font-semibold text-white">Your Submissions</h3>
+                    <p className="text-sm text-[#8b949e] mt-1 text-center px-4">
+                      Your submission history will appear here.
+                    </p>
+                  </div>
                 </div>
               )}
 
               {activeTab === 'aichat' && (
-                <div className="flex flex-col items-center justify-center h-64 text-center">
-                  <MessageSquare className="h-12 w-12 text-muted-foreground/50 mb-4" />
-                  <h3 className="font-semibold text-foreground">AI Chat</h3>
-                  <p className="text-sm text-muted-foreground mt-1">
-                    Get AI-powered hints and explanations here.
-                  </p>
+                <div className="h-full flex flex-col space-y-6">
+                  <div className="flex items-center gap-3 shrink-0">
+                    <h1 className="text-xl font-bold text-white">AI Chat</h1>
+                  </div>
+                  <div className="flex-1 flex flex-col items-center justify-center border border-dashed border-[#30363d] rounded-lg bg-[#161b22]/50">
+                    <MessageSquare className="h-10 w-10 text-[#8b949e]/50 mb-3" />
+                    <h3 className="font-semibold text-white">AI Assistant</h3>
+                    <p className="text-sm text-[#8b949e] mt-1 text-center px-4">
+                      Get AI-powered hints and explanations here.
+                    </p>
+                  </div>
                 </div>
               )}
             </div>

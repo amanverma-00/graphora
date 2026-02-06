@@ -94,7 +94,7 @@ export default function Mock() {
       const mock = await generateMock.mutateAsync(data)
       // Auto-start the generated mock
       await startMock.mutateAsync(mock._id)
-      navigate(`/app/mock/${mock._id}`)
+      navigate(`/mock/${mock._id}`)
     } catch (error) {
       console.error('Failed to generate mock:', error)
     }
@@ -102,7 +102,7 @@ export default function Mock() {
 
   const handleResumeMock = () => {
     if (activeMock?._id) {
-      navigate(`/app/mock/${activeMock._id}`)
+      navigate(`/mock/${activeMock._id}`)
     }
   }
 
@@ -376,7 +376,7 @@ export default function Mock() {
                   Recent Mocks
                 </h2>
                 <Link
-                  to="/app/mock/history"
+                  to="/mock/history"
                   className="text-sm text-primary hover:underline"
                 >
                   View All
